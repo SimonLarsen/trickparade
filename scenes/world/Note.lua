@@ -1,16 +1,9 @@
-local Interactable = require("scenes.world.Interactable")
-local Dialog = require("scenes.world.Dialog")
+local Text = require("scenes.world.Text")
 
-local Note = class("Note", Interactable)
+local Note = class("Note", Text)
 
-function Note:initialize(x, y, lines)
-	Interactable.initialize(self, x, y, 1)
-
-	self.lines = lines
-end
-
-function Note:interact()
-	self.scene:add(Dialog(self.lines))
+function Note:initialize(...)
+	Text.initialize(self, ...)
 end
 
 function Note:draw()

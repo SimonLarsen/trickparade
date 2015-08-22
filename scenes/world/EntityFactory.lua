@@ -1,6 +1,7 @@
 local EntityFactory = {}
 
 local Teleport = require("scenes.world.Teleport")
+local Text = require("scenes.world.Text")
 local Note = require("scenes.world.Note")
 
 function EntityFactory.create(o)
@@ -11,6 +12,10 @@ function EntityFactory.create(o)
 			tonumber(o.properties.desty),
 			tonumber(o.properties.dir)
 		)
+
+	elseif o.type == "text" then
+		local lines = o.properties.lines:split("##")
+		return Text(o.x, o.y, lines)
 
 	elseif o.type == "note" then
 		local lines = o.properties.lines:split("##")
