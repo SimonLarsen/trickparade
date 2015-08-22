@@ -11,7 +11,7 @@ Resources = require("Resources")
 WIDTH = 240
 HEIGHT = 160
 TILEW = 16
-SCALE = 2
+SCALE = 3
 
 local canvas
 

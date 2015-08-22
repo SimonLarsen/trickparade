@@ -47,6 +47,10 @@ function Tilemap:load(id)
 	end
 end
 
+function Tilemap:isSolid(x, y)
+	return self.data[x][y] >= 512
+end
+
 function Tilemap:draw()
 	love.graphics.draw(self.batch, 0, 0)
 end
