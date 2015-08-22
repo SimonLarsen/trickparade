@@ -7,6 +7,8 @@ timer = require("hump.timer")
 Scene = require("Scene")
 Entity = require("Entity")
 Keyboard = require("Keyboard")
+Animation = require("Animation")
+Animator = require("Animator")
 Resources = require("Resources")
 Config = require("Config")
 

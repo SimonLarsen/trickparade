@@ -5,8 +5,12 @@ state.down = {}
 state.pressed = {}
 state.released = {}
 
-function Keyboard.wasPressed(k)
-	return state.pressed[k] == true
+function Keyboard.wasPressed(k, consume)
+	local s = state.pressed[k] == true
+	if consume then
+		state.pressed[k] = false
+	end
+	return s
 end
 
 function Keyboard.wasReleased(k)

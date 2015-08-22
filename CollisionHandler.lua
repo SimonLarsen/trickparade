@@ -12,7 +12,6 @@ function CollisionHandler.checkAll(scene, dt)
 					v:onCollide(w, dt)
 					w:onCollide(v, dt)
 				end
-				w:onCollide(v, dt)
 			end
 		end
 	end
@@ -25,8 +24,8 @@ function CollisionHandler.check(v, w)
 end
 
 function CollisionHandler.checkBoxBox(a, b)
-	if math.abs((a.x+a.collider.ox) - (b.x+b.collider.ox)) > (a.collider.h+b.collider.h)/2
-		or math.abs((a.y+a.collider.oy) - (b.y+b.collider.oy)) > (a.collider.h+b.collider.h)/4 then
+	if math.abs((a.x+a.collider.ox) - (b.x+b.collider.ox)) > (a.collider.w+b.collider.w)/4
+	or math.abs((a.y+a.collider.oy) - (b.y+b.collider.oy)) > (a.collider.h+b.collider.h)/4 then
 		return false
 	end
 

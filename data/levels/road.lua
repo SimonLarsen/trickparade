@@ -7,7 +7,7 @@ return {
   height = 64,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 11,
+  nextobjectid = 13,
   properties = {},
   tilesets = {
     {
@@ -155,10 +155,10 @@ return {
           name = "",
           type = "note",
           shape = "rectangle",
-          x = 536,
-          y = 440,
-          width = 0,
-          height = 0,
+          x = 528,
+          y = 432,
+          width = 16,
+          height = 16,
           rotation = 0,
           visible = true,
           properties = {
@@ -170,14 +170,29 @@ return {
           name = "",
           type = "text",
           shape = "rectangle",
-          x = 568,
-          y = 568,
-          width = 0,
-          height = 0,
+          x = 560,
+          y = 560,
+          width = 16,
+          height = 16,
           rotation = 0,
           visible = true,
           properties = {
             ["lines"] = "IT'S A SPOOKY PUMPKIN HEAD##BETTER NOT TOUCH IT!"
+          }
+        },
+        {
+          id = 12,
+          name = "",
+          type = "npc",
+          shape = "rectangle",
+          x = 448,
+          y = 432,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = "test1"
           }
         }
       }

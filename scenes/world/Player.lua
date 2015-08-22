@@ -34,7 +34,7 @@ function Player:update(dt)
 			self:move(2)
 		elseif Keyboard.isDown(Config.KEY_LEFT) then
 			self:move(3)
-		elseif Keyboard.wasPressed(Config.KEY_ACTION) then
+		elseif Keyboard.wasPressed(Config.KEY_ACTION, true) then
 			self:interact()
 		end
 	
@@ -61,6 +61,15 @@ end
 function Player:move(dir)
 	self.dir = dir
 	local cx, cy = self:getTileFront()
+
+	for i,v in ipairs(self.scene:getEntities()) do
+		if v:getName() == "npc" then
+			local ocx, ocy = v:getTile()
+			if cx == ocx and cy == ocy then
+				return
+			end
+		end
+	end
 
 	if self.tilemap:isSolid(cx, cy) == false then
 		self.state = Player.static.STATE_WALK

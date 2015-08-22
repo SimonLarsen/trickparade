@@ -42,7 +42,7 @@ function Dialog:update(dt)
 		end
 	end
 
-	if Keyboard.wasPressed(Config.KEY_ACTION)
+	if Keyboard.wasPressed(Config.KEY_ACTION, true)
 	and self.line == #self.lines and self.char == self.lines[self.line]:len() then
 		self.scene:find("player"):setState(Player.static.STATE_IDLE)
 		self:kill()
