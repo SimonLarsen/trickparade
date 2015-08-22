@@ -13,11 +13,16 @@ Player.static.WALK_SPEED = 64
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0, "player")
 
-	self.sprite = Resources.getImage("world/player.png")
+	self.anim = Animation(
+		Resources.getImage("world/player_base_down.png"),
+		16, 21, 1/8, true, 8, 16
+	)
+	self.anim._frame = 2
+
 	self.collider = BoxCollider(16, 16)
 
 	self.state = Player.static.STATE_IDLE
-	self.dir = 2
+	self:setDir(2)
 end
 
 function Player:enter()
@@ -39,6 +44,8 @@ function Player:update(dt)
 		end
 	
 	elseif self.state == Player.static.STATE_WALK then
+		self.anim:update(dt)
+
 		local dist = math.min(TILEW-self.moved, Player.static.WALK_SPEED*dt)
 
 		if self.dir == 0 then self.y = self.y - dist
@@ -59,7 +66,7 @@ function Player:update(dt)
 end
 
 function Player:move(dir)
-	self.dir = dir
+	self:setDir(dir)
 	local cx, cy = self:getTileFront()
 
 	for i,v in ipairs(self.scene:getEntities()) do
@@ -77,6 +84,17 @@ function Player:move(dir)
 	end
 end
 
+function Player:setDir(dir)
+	self.dir = dir
+	local img
+	if self.dir == 0 then img = Resources.getImage("world/player_base_up.png")
+	elseif self.dir == 1 then img = Resources.getImage("world/player_base_side.png")
+	elseif self.dir == 2 then img = Resources.getImage("world/player_base_down.png")
+	elseif self.dir == 3 then img = Resources.getImage("world/player_base_side.png")
+	end
+	self.anim._image = img
+end
+
 function Player:interact()
 	local cx, cy = self:getTileFront()
 
@@ -91,7 +109,9 @@ function Player:interact()
 end
 
 function Player:draw()
-	love.graphics.draw(self.sprite, self.x, self.y, 0, 1, 1, 8, 16)
+	local sx = 1
+	if self.dir == 3 then sx = -1 end
+	self.anim:draw(self.x, self.y, 0, sx, 1)
 end
 
 function Player:getTile()
