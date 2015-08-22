@@ -7,6 +7,7 @@ Scene = require("Scene")
 Entity = require("Entity")
 Keyboard = require("Keyboard")
 Resources = require("Resources")
+Config = require("Config")
 
 WIDTH = 240
 HEIGHT = 160

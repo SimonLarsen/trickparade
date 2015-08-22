@@ -5,6 +5,7 @@ local CollisionHandler = require("CollisionHandler")
 
 Player.static.STATE_IDLE = 0
 Player.static.STATE_WALK = 1
+Player.static.STATE_DIALOG = 2
 
 Player.static.WALK_SPEED = 64
 
@@ -24,16 +25,16 @@ end
 
 function Player:update(dt)
 	if self.state == Player.static.STATE_IDLE then
-		if Keyboard.isDown("up") then
+		if Keyboard.isDown(Config.KEY_UP) then
 			self:move(0)
 		end
-		if Keyboard.isDown("right") then
+		if Keyboard.isDown(Config.KEY_RIGHT) then
 			self:move(1)
 		end
-		if Keyboard.isDown("down") then
+		if Keyboard.isDown(Config.KEY_DOWN) then
 			self:move(2)
 		end
-		if Keyboard.isDown("left") then
+		if Keyboard.isDown(Config.KEY_LEFT) then
 			self:move(3)
 		end
 	
@@ -89,6 +90,10 @@ function Player:onCollide(o)
 
 		self:move(o.dir)
 	end
+end
+
+function Player:setState(state)
+	self.state = state
 end
 
 return Player

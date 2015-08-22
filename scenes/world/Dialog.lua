@@ -1,5 +1,7 @@
 local Dialog = class("Dialog", Entity)
 
+local Player = require("scenes.world.Player")
+
 Dialog.static.CHAR_WAIT = 0.05
 Dialog.static.LINE_WAIT = 0.5
 
@@ -14,7 +16,15 @@ function Dialog:initialize(lines)
 	self.wait = 0
 end
 
+function Dialog:enter()
+	self.scene:find("player"):setState(Player.static.STATE_DIALOG)
+end
+
 function Dialog:update(dt)
+	if Keyboard.isDown(Config.KEY_ACTION) then
+		dt = dt * 5
+	end
+
 	self.wait = self.wait - dt
 	if self.wait <= 0 then
 		self.wait = Dialog.static.CHAR_WAIT
@@ -28,6 +38,12 @@ function Dialog:update(dt)
 			self.char = 0
 			self.line = self.line + 1
 		end
+	end
+
+	if Keyboard.wasPressed(Config.KEY_ACTION)
+	and self.line == #self.lines and self.char == self.lines[self.line]:len() then
+		self.scene:find("player"):setState(Player.static.STATE_IDLE)
+		self:kill()
 	end
 end
 
