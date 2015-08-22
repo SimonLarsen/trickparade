@@ -6,6 +6,10 @@ local images = {}
 local animators = {}
 local fonts = {}
 
+function Resources.initialize()
+	Resources.getImageFont("small.png", " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,:;-?!'")
+end
+
 function Resources.getImage(path)
 	if images[path] == nil then
 		images[path] = love.graphics.newImage("data/images/" .. path)
@@ -26,6 +30,13 @@ function Resources.getFont(path, size)
 		fonts[path .. size] = love.graphics.newFont("data/fonts/" .. path, size)
 	end
 	return fonts[path .. size]
+end
+
+function Resources.getImageFont(path, glyphs)
+	if fonts[path] == nil then
+		fonts[path] = love.graphics.newImageFont("data/fonts/" .. path, glyphs)
+	end
+	return fonts[path]
 end
 
 return Resources

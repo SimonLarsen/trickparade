@@ -23,6 +23,8 @@ function love.load()
 
 	canvas = love.graphics.newCanvas(WIDTH, HEIGHT)
 
+	Resources.initialize()
+
 	gamestate.registerEvents()
 	gamestate.push(require("scenes.world.WorldScene")())
 end
