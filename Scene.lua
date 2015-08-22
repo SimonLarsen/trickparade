@@ -1,6 +1,7 @@
 local Scene = class("Scene")
 
 local Camera = require("Camera")
+local CollisionHandler = require("CollisionHandler")
 local sort = require("sort")
 
 function Scene:initialize()
@@ -8,6 +9,7 @@ function Scene:initialize()
 	self.hasEntered = false
 	self.camera = Camera()
 	self.bgcolor = {r=255, g=255, b=255}
+	self.checkCollision = true
 
 	timer.clear()
 end
@@ -21,6 +23,10 @@ end
 
 function Scene:update(dt)
 	self.camera:update(dt)
+
+	if self.checkCollision then
+		CollisionHandler.checkAll(self, dt)
+	end
 
 	for i,v in ipairs(self.entities) do
 		if v:isAlive() and v.update then
@@ -98,6 +104,10 @@ end
 
 function Scene:setBackgroundColor(r, g, b)
 	self.bgcolor = {r=r, g=g, b=b}
+end
+
+function Scene:setCheckCollision(s)
+	self.checkCollision = s
 end
 
 return Scene

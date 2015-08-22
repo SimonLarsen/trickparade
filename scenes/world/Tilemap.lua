@@ -1,5 +1,7 @@
 local Tilemap = class("Tilemap", Entity)
 
+local EntityFactory = require("scenes.world.EntityFactory")
+
 function Tilemap:initialize()
 	Entity.initialize(self, 0, 0, 10, "tilemap")
 
@@ -28,20 +30,27 @@ function Tilemap:load(id)
 	local file = love.filesystem.load("data/levels/" .. id .. ".lua")
 	local data = file()
 
-	for i,v in ipairs(data.layers) do
-		self.mapw = v.width
-		self.maph = v.height
-		self.batch = love.graphics.newSpriteBatch(self.tiles, self.mapw*self.maph)
+	for i, layer in ipairs(data.layers) do
+		if layer.type == "tilelayer" then
+			self.mapw = layer.width
+			self.maph = layer.height
+			self.batch = love.graphics.newSpriteBatch(self.tiles, self.mapw*self.maph)
 
-		self.data = {}
-		if v.type == "tilelayer" then
+			self.data = {}
 			for ix = 0, self.mapw-1 do
 				self.data[ix] = {}
 				for iy = 0, self.maph-1 do
-					id = v.data[ix + iy*self.mapw + 1]
+					id = layer.data[ix + iy*self.mapw + 1]
 					self.data[ix][iy] = id-1
-					self.batch:add(self.quads[id], ix*TILEW, iy*TILEW)
+					if id > 0 then
+						self.batch:add(self.quads[id], ix*TILEW, iy*TILEW)
+					end
 				end
+			end
+		
+		elseif layer.type == "objectgroup" then
+			for j, o in ipairs(layer.objects) do
+				self.scene:add(EntityFactory.create(o))
 			end
 		end
 	end

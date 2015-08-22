@@ -6,7 +6,8 @@ local Tilemap = require("scenes.world.Tilemap")
 function WorldScene:initialize()
 	Scene.initialize(self)
 
-	self:add(Player(16*16+8, 8*8+8))
+	self:setCheckCollision(false)
+	self:add(Player(31.5*TILEW, 28.5*TILEW))
 	local map = self:add(Tilemap())
 	map:load("road")
 end
