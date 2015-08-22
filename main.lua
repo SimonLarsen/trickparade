@@ -3,11 +3,16 @@ class = require("middleclass.middleclass")
 gamestate = require("hump.gamestate")
 timer = require("hump.timer")
 
+Scene = require("Scene")
+Entity = require("Entity")
 Keyboard = require("Keyboard")
+Resources = require("Resources")
 
 WIDTH = 240
 HEIGHT = 160
 SCALE = 2
+
+local canvas
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -15,13 +20,79 @@ function love.load()
 
 	love.window.setMode(WIDTH*SCALE, HEIGHT*SCALE, {vsync = true, fullscreen = false})
 
+	canvas = love.graphics.newCanvas(WIDTH, HEIGHT)
+
 	gamestate.registerEvents()
+	gamestate.switch(require("scenes.world.WorldScene")())
 end
 
-function love.update(dt)
-
+function love.gui()
+	gamestate.current():gui()
 end
 
-function love.draw()
+function love.keypressed(k)
+	Keyboard.keypressed(k)
+end
 
+function love.keyreleased(k)
+	Keyboard.keyreleased(k)
+end
+
+function love.run()
+	if love.math then
+		love.math.setRandomSeed(os.time())
+		for i=1,3 do love.math.random() end
+	end
+
+	if love.event then
+		love.event.pump()
+	end
+
+	if love.load then love.load(arg) end
+
+	if love.timer then love.timer.step() end
+
+	local dt = 0
+
+	while true do
+		if love.event then
+			love.event.pump()
+			for e,a,b,c,d in love.event.poll() do
+				if e == "quit" then
+					if not love.quit or not love.quit() then
+						if love.audio then
+							love.audio.stop()
+						end
+						return
+					end
+				end
+				love.handlers[e](a,b,c,d)
+			end
+		end
+
+		if love.timer then
+			love.timer.step()
+			dt = love.timer.getDelta()
+		end
+
+		if love.update then love.update(dt) end
+
+		if love.window and love.graphics and love.window.isCreated() then
+			love.graphics.clear()
+			love.graphics.origin()
+
+			love.graphics.setCanvas(canvas)
+
+			love.draw()
+			love.gui()
+
+			love.graphics.scale(SCALE, SCALE)
+			love.graphics.setCanvas()
+			love.graphics.draw(canvas, 0, 0)
+
+			love.graphics.present()
+		end
+
+		if love.timer then love.timer.sleep(0.001) end
+	end
 end

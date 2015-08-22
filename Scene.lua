@@ -1,6 +1,7 @@
-local Camera = require("Camera")
-
 local Scene = class("Scene")
+
+local Camera = require("Camera")
+local sort = require("sort")
 
 function Scene:initialize()
 	self.entities = {}
@@ -29,8 +30,8 @@ function Scene:update(dt)
 
 	timer.update(dt)
 
-	util.insertionsort(self.entities, function(a, b)
-		return (a.z == b.z and a.y > b.y) or a.z < b.z
+	sort.insertionsort(self.entities, function(a, b)
+		return a.z < b.z
 	end)
 
 	for i=#self.entities, 1, -1 do
@@ -42,8 +43,6 @@ function Scene:update(dt)
 end
 
 function Scene:draw()
-	canvas:clear(self.bgcolor.r, self.bgcolor.g, self.bgcolor.b, 255)
-
 	love.graphics.push()
 	self.camera:apply()
 
