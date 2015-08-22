@@ -31,7 +31,7 @@ function Scene:update(dt)
 	timer.update(dt)
 
 	sort.insertionsort(self.entities, function(a, b)
-		return a.z < b.z
+		return a.z > b.z
 	end)
 
 	for i=#self.entities, 1, -1 do

@@ -10,6 +10,7 @@ Resources = require("Resources")
 
 WIDTH = 240
 HEIGHT = 160
+TILEW = 16
 SCALE = 2
 
 local canvas
@@ -23,7 +24,7 @@ function love.load()
 	canvas = love.graphics.newCanvas(WIDTH, HEIGHT)
 
 	gamestate.registerEvents()
-	gamestate.switch(require("scenes.world.WorldScene")())
+	gamestate.push(require("scenes.world.WorldScene")())
 end
 
 function love.gui()
@@ -77,10 +78,13 @@ function love.run()
 
 		if love.update then love.update(dt) end
 
+		Keyboard.clear()
+
 		if love.window and love.graphics and love.window.isCreated() then
 			love.graphics.clear()
 			love.graphics.origin()
 
+			canvas:clear(0, 0, 0, 255)
 			love.graphics.setCanvas(canvas)
 
 			love.draw()
