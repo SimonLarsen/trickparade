@@ -14,6 +14,7 @@ function Dialog:initialize(lines)
 	self.line = 1
 	self.char = 1
 	self.wait = 0
+	self.actionReleased = false
 end
 
 function Dialog:enter()
@@ -21,7 +22,8 @@ function Dialog:enter()
 end
 
 function Dialog:update(dt)
-	if Keyboard.isDown(Config.KEY_ACTION) then
+	self.actionReleased = self.actionReleased or not Keyboard.isDown(Config.KEY_ACTION)
+	if self.actionReleased and Keyboard.isDown(Config.KEY_ACTION) then
 		dt = dt * 5
 	end
 

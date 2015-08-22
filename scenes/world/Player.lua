@@ -2,6 +2,7 @@ local Player = class("Player", Entity)
 
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
+local Interactable = require("scenes.world.Interactable")
 
 Player.static.STATE_IDLE = 0
 Player.static.STATE_WALK = 1
@@ -27,15 +28,14 @@ function Player:update(dt)
 	if self.state == Player.static.STATE_IDLE then
 		if Keyboard.isDown(Config.KEY_UP) then
 			self:move(0)
-		end
-		if Keyboard.isDown(Config.KEY_RIGHT) then
+		elseif Keyboard.isDown(Config.KEY_RIGHT) then
 			self:move(1)
-		end
-		if Keyboard.isDown(Config.KEY_DOWN) then
+		elseif Keyboard.isDown(Config.KEY_DOWN) then
 			self:move(2)
-		end
-		if Keyboard.isDown(Config.KEY_LEFT) then
+		elseif Keyboard.isDown(Config.KEY_LEFT) then
 			self:move(3)
+		elseif Keyboard.wasPressed(Config.KEY_ACTION) then
+			self:interact()
 		end
 	
 	elseif self.state == Player.static.STATE_WALK then
@@ -60,17 +60,24 @@ end
 
 function Player:move(dir)
 	self.dir = dir
-
-	local cx, cy = self:getTile()
-	if dir == 0 then cy = cy-1
-	elseif dir == 1 then cx = cx+1
-	elseif dir == 2 then cy = cy+1
-	elseif dir == 3 then cx = cx-1
-	end
+	local cx, cy = self:getTileFront()
 
 	if self.tilemap:isSolid(cx, cy) == false then
 		self.state = Player.static.STATE_WALK
 		self.moved = 0
+	end
+end
+
+function Player:interact()
+	local cx, cy = self:getTileFront()
+
+	for i,v in ipairs(self.scene:getEntities()) do
+		if v:isInstanceOf(Interactable) then
+			local ocx, ocy = v:getTile()
+			if cx == ocx and cy == ocy then
+				v:interact()
+			end
+		end
 	end
 end
 
@@ -80,6 +87,18 @@ end
 
 function Player:getTile()
 	return math.floor(self.x / TILEW), math.floor(self.y / TILEW)
+end
+
+function Player:getTileFront()
+	local cx, cy = self:getTile()
+
+	if self.dir == 0 then cy = cy-1
+	elseif self.dir == 1 then cx = cx+1
+	elseif self.dir == 2 then cy = cy+1
+	elseif self.dir == 3 then cx = cx-1
+	end
+
+	return cx, cy
 end
 
 function Player:onCollide(o)

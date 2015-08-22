@@ -1,4 +1,5 @@
 require("slam.slam")
+require("StringUtils")
 class = require("middleclass.middleclass")
 gamestate = require("hump.gamestate")
 timer = require("hump.timer")

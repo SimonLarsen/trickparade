@@ -7,7 +7,7 @@ return {
   height = 64,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 7,
+  nextobjectid = 10,
   properties = {},
   tilesets = {
     {
@@ -148,6 +148,21 @@ return {
             ["destx"] = "4",
             ["desty"] = "8",
             ["dir"] = "0"
+          }
+        },
+        {
+          id = 9,
+          name = "",
+          type = "note",
+          shape = "rectangle",
+          x = 536,
+          y = 440,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["lines"] = "FIRST LINE##SECOND LINE"
           }
         }
       }
