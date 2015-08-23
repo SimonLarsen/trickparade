@@ -8,7 +8,7 @@ function WorldScene:initialize()
 
 	self:setCheckCollision(false)
 
-	self:add(Player(31.5*TILEW, 28.5*TILEW))
+	self:add(Player(27.5*TILEW, 27.5*TILEW))
 	self:add(Tilemap()):load("road")
 end
 

@@ -30,8 +30,7 @@ function love.load()
 	Resources.initialize()
 
 	gamestate.registerEvents()
-	--gamestate.push(require("scenes.world.WorldScene")())
-	gamestate.push(require("scenes.minigame.flicker.FlickerMinigame")())
+	gamestate.push(require("scenes.world.WorldScene")())
 end
 
 function love.gui()
@@ -91,7 +90,7 @@ function love.run()
 			love.graphics.clear()
 			love.graphics.origin()
 
-			canvas:clear(0, 0, 0, 255)
+			canvas:clear(44, 46, 54, 255)
 			love.graphics.setCanvas(canvas)
 
 			love.draw()

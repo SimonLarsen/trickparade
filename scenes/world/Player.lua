@@ -15,13 +15,13 @@ function Player:initialize(x, y)
 
 	self.anim = Animation(
 		Resources.getImage("world/player_base_down.png"),
-		16, 21, 1/8, true, 8, 16
+		16, 21, 1/8, true, 8, 15
 	)
-	self.anim._frame = 2
 
 	self.collider = BoxCollider(16, 16)
 
 	self.state = Player.static.STATE_IDLE
+	self.anim._frame = 2
 	self:setDir(2)
 end
 
