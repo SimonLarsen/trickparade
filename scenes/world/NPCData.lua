@@ -39,6 +39,7 @@ NPCData["ghostkid1"] = {
 	state = 0,
 	range = 3,
 	hp = 100,
+	damage = 20,
 
 	interact = {
 		[0] = function(self)

@@ -43,9 +43,6 @@ function NPC:update(dt)
 				if controller:isSuccess() and NPCData[self.id].onWin then
 					NPCData[self.id].onWin(self)
 				end
-				if not controller:isSuccess() and NPCData[self.id].onFail then
-					NPCData[self.id].onFail(self)
-				end
 				self.state = NPC.static.STATE_IDLE
 			end
 			self.battle = nil
@@ -109,6 +106,10 @@ end
 
 function NPC:getHP()
 	return NPCData[self.id].hp
+end
+
+function NPC:getDamage()
+	return NPCData[self.id].damage
 end
 
 function NPC:getCostume()

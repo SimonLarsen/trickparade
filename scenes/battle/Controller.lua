@@ -44,8 +44,6 @@ function Controller:initialize(player, enemy)
 	self.enemy_hp = self.enemy_hp_max
 	self.enemy_hp_bar = self.enemy_hp_max
 
-	self.enemy_hp = 1
-
 	self.state = Controller.static.STATE_SELECT
 	self.selection = 1
 	self.time = 0
@@ -200,7 +198,7 @@ end
 
 function Controller:counter()
 	self.state = Controller.static.STATE_COUNTER
-	local damage = 25
+	local damage = self.enemy:getDamage()
 
 	local fun = function()
 		if self.player_hp == 0 then
@@ -212,7 +210,7 @@ function Controller:counter()
 
 	self.player_hp = math.max(0, self.player_hp - damage)
 	timer.add(1.0, function()
-		self.scene:add(Dialog({ "NPC DEALTH " .. damage .. " DAMAGE", "IT WAS VERY EFFECTIVE" }, fun))
+		self.scene:add(Dialog({ "NPC DEALTH " .. damage .. " DAMAGE" }, fun))
 	end)
 end
 
