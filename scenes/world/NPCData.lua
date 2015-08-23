@@ -1,15 +1,16 @@
 local Dialog = require("scenes.world.Dialog")
 
-local NPCData = {}
+local NPCData = {
+}
 
-NPCData["test1"] = {
-	[0] = function(self)
-		self.scene:add(Dialog({"HELLO!"}))
-		self:setNPCState(1)
-	end,
-	[1] = function(self)
-		self.scene:add(Dialog({"PLEASE GO AWAY."}))
-	end
+NPCData["mom1"] = {
+	type = "mom",
+
+	interact = {
+		[0] = function(self)
+			self.scene:add(Dialog({"HI, HONEY!"}))
+		end
+	}
 }
 
 return NPCData

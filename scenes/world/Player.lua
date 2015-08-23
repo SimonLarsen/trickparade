@@ -102,7 +102,7 @@ function Player:interact()
 		if v:isInstanceOf(Interactable) then
 			local ocx, ocy = v:getTile()
 			if cx == ocx and cy == ocy then
-				v:interact()
+				v:interact(self)
 			end
 		end
 	end

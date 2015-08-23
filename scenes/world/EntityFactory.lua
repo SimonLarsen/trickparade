@@ -33,7 +33,8 @@ function EntityFactory.create(o)
 		return NPC(
 			o.x + TILEW/2,
 			o.y + TILEW/2,
-			o.properties.id
+			o.properties.id,
+			tonumber(o.properties.dir)
 		)
 	end
 end

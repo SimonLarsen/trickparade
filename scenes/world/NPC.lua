@@ -13,17 +13,28 @@ function NPC:initialize(x, y, id, dir)
 	self.id = id
 	self.dir = dir
 	self.npc_state = 0
+	self.type = NPCData[self.id].type
+
+	self.sprite = Resources.getImage("world/npc_" .. self.type .. ".png")
+	self.quads = {}
+	for i=0, 3 do
+		self.quads[i] = love.graphics.newQuad(i*16, 0, 16, 20, 64, 20)
+	end
 end
 
 function NPC:draw()
-	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.rectangle("fill", self.x-8, self.y-16, 16, 20)
+	love.graphics.draw(self.sprite, self.quads[self.dir], self.x, self.y, 0, 1, 1, 8, 16)
 end
 
-function NPC:interact()
+function NPC:interact(player)
 	if self.state ~= NPC.static.STATE_IDLE then return end
 	
-	NPCData[self.id][self.npc_state](self)
+	if player.y < self.y then self.dir = 0 end
+	if player.x > self.x then self.dir = 1 end
+	if player.y > self.y then self.dir = 2 end
+	if player.x < self.x then self.dir = 3 end
+
+	NPCData[self.id].interact[self.npc_state](self)
 end
 
 function NPC:setNPCState(s)
