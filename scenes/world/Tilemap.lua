@@ -64,4 +64,12 @@ function Tilemap:draw()
 	love.graphics.draw(self.batch, 0, 0)
 end
 
+function Tilemap:getWidth()
+	return self.mapw * TILEW
+end
+
+function Tilemap:getHeight()
+	return self.maph * TILEW
+end
+
 return Tilemap

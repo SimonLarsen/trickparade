@@ -12,7 +12,6 @@ function NPC:initialize(x, y, id, dir)
 	self.state = NPC.static.STATE_IDLE
 	self.id = id
 	self.dir = dir
-	self.npc_state = 0
 	self.type = NPCData[self.id].type
 
 	self.sprite = Resources.getImage("world/npc_" .. self.type .. ".png")
@@ -34,11 +33,12 @@ function NPC:interact(player)
 	if player.y > self.y then self.dir = 2 end
 	if player.x < self.x then self.dir = 3 end
 
-	NPCData[self.id].interact[self.npc_state](self)
+	local state = NPCData[self.id].state
+	NPCData[self.id].interact[state](self)
 end
 
 function NPC:setNPCState(s)
-	self.npc_state = s
+	NPCData[self.id].state = s
 end
 
 return NPC

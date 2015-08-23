@@ -1,10 +1,14 @@
-local Controller = class("Controller", Entity)
+local GUIComponent = require("gui.GUIComponent")
+
+local Controller = class("Controller", GUIComponent)
 
 function Controller:initialize()
-	Entity.initialize(self)
+	GUIComponent.initialize(self)
 
 	self.player_hp = 100
 	self.enemy_hp = 100
+
+	self.selection = 1
 
 	self.paranormal = false
 	self.creeps = false
@@ -14,6 +18,9 @@ function Controller:initialize()
 end
 
 function Controller:gui()
+	self:drawBox(0, HEIGHT-32, WIDTH, 32)
+	self:drawBox(0, 0, WIDTH, 32)
+
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.rectangle("fill", WIDTH/2 - 100, HEIGHT/2-30, 60, 20)
 	love.graphics.rectangle("fill", WIDTH/2 - 30, HEIGHT/2-30, 60, 20)
@@ -30,10 +37,10 @@ function Controller:gui()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.setFont(self.font)
 	love.graphics.printf("ENEMY", 8, 8, WIDTH-16, "right")
-	love.graphics.printf("PLAYER", 8, HEIGHT-23, WIDTH-16, "left")
+	love.graphics.printf("PLAYER", 8, HEIGHT-24, WIDTH-16, "left")
 
 	love.graphics.rectangle("fill", WIDTH-8-self.enemy_hp, 20, self.enemy_hp, 4)
-	love.graphics.rectangle("fill", 8, HEIGHT-11, self.player_hp, 4)
+	love.graphics.rectangle("fill", 8, HEIGHT-12, self.player_hp, 4)
 end
 
 return Controller

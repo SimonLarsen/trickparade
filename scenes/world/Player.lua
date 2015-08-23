@@ -68,7 +68,10 @@ function Player:update(dt)
 		end
 	end
 
-	self.scene:getCamera():setPosition(self.x, self.y)
+	self.scene:getCamera():setPosition(
+		math.min(math.max(self.x, WIDTH/2), self.tilemap:getWidth() - WIDTH/2),
+		math.min(math.max(self.y, HEIGHT/2), self.tilemap:getHeight() - HEIGHT/2)
+	)
 end
 
 function Player:move(dir)
