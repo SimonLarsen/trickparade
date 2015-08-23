@@ -1,7 +1,9 @@
-local Controller = class("Controller", Entity)
+local MinigameController = require("scenes.minigame.MinigameController")
+
+local Controller = class("Controller", MinigameController)
 
 function Controller:initialize()
-	Entity.initialize(self)
+	MinigameController.initialize(self)
 
 	self.bg_on = Resources.getImage("minigame/flicker/bg_on.png")
 	self.bg_off = Resources.getImage("minigame/flicker/bg_off.png")
@@ -11,6 +13,8 @@ function Controller:initialize()
 end
 
 function Controller:update(dt)
+	MinigameController.update(self, dt)
+
 	if self.on == true and Keyboard.wasPressed(Config.KEY_DOWN) then
 		self.on = false
 		self.count = self.count + 1
@@ -21,7 +25,7 @@ function Controller:update(dt)
 	end
 end
 
-function Controller:gui()
+function Controller:draw()
 	if self.on then
 		love.graphics.draw(self.bg_on, 0, 0)
 	else

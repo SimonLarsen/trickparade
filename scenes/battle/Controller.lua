@@ -29,8 +29,11 @@ function Controller:gui()
 
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.setFont(self.font)
-	love.graphics.printf("PLAYER: " .. self.player_hp, 16, 12, WIDTH-32, "right")
-	love.graphics.printf("ENEMY: " .. self.enemy_hp, 16, HEIGHT-19, WIDTH-32, "left")
+	love.graphics.printf("ENEMY", 8, 8, WIDTH-16, "right")
+	love.graphics.printf("PLAYER", 8, HEIGHT-23, WIDTH-16, "left")
+
+	love.graphics.rectangle("fill", WIDTH-8-self.enemy_hp, 20, self.enemy_hp, 4)
+	love.graphics.rectangle("fill", 8, HEIGHT-11, self.player_hp, 4)
 end
 
 return Controller

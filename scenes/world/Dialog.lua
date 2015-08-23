@@ -1,4 +1,6 @@
-local Dialog = class("Dialog", Entity)
+local GUIComponent = require("gui.GUIComponent")
+
+local Dialog = class("Dialog", GUIComponent)
 
 local Player = require("scenes.world.Player")
 
@@ -6,7 +8,7 @@ Dialog.static.CHAR_WAIT = 0.05
 Dialog.static.LINE_WAIT = 0.5
 
 function Dialog:initialize(lines)
-	Entity.initialize(self, 0, 0, 0)
+	GUIComponent.initialize(self)
 
 	self.font = Resources.getImageFont("small.png")
 
@@ -50,8 +52,8 @@ function Dialog:update(dt)
 end
 
 function Dialog:gui()
-	love.graphics.setColor(20, 20, 20)
-	love.graphics.rectangle("fill", 0, HEIGHT-40, WIDTH, 40)
+	love.graphics.setColor(255, 255, 255)
+	self:drawBox(0, HEIGHT-40, WIDTH, 40)
 
 	love.graphics.setColor(230, 230, 230)
 	love.graphics.setFont(self.font)

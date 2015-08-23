@@ -23,7 +23,7 @@ function NPC:initialize(x, y, id, dir)
 end
 
 function NPC:draw()
-	love.graphics.draw(self.sprite, self.quads[self.dir], self.x, self.y, 0, 1, 1, 8, 16)
+	love.graphics.draw(self.sprite, self.quads[self.dir], self.x, self.y, 0, 1, 1, 8, 15)
 end
 
 function NPC:interact(player)
