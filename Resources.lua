@@ -7,7 +7,7 @@ local animators = {}
 local fonts = {}
 
 function Resources.initialize()
-	Resources.getImageFont("small.png", " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,:;-?!'")
+	Resources.getImageFont("small.png", " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,:;-?!'*")
 end
 
 function Resources.getImage(path)

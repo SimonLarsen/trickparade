@@ -3,6 +3,7 @@ local Player = class("Player", Entity)
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
 local Interactable = require("scenes.world.Interactable")
+local Menu = require("scenes.world.Menu")
 
 Player.static.STATE_IDLE = 0
 Player.static.STATE_WALK = 1
@@ -39,8 +40,13 @@ function Player:update(dt)
 			self:move(2)
 		elseif Keyboard.isDown(Config.KEY_LEFT) then
 			self:move(3)
+
 		elseif Keyboard.wasPressed(Config.KEY_ACTION, true) then
 			self:interact()
+	
+		elseif Keyboard.wasPressed(Config.KEY_CANCEL, true) then
+			self.state = Player.static.STATE_DIALOG
+			self.scene:add(Menu())
 		end
 	
 	elseif self.state == Player.static.STATE_WALK then
