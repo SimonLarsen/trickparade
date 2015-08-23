@@ -2,6 +2,7 @@ local GUIComponent = require("gui.GUIComponent")
 local MinigameFactory = require("scenes.battle.MinigameFactory")
 local Transition = require("transition.CurtainsTransition")
 local Dialog = require("scenes.battle.Dialog")
+local NPCData = require("scenes.world.NPCData")
 
 local Controller = class("Controller", GUIComponent)
 
@@ -19,17 +20,27 @@ local names = {
 	"CRITTER"
 }
 
+local effect_text = {
+	[-3] = "NPC LAUGHS AT YOU",
+	[-2] = "NPC WAS UNPHASED",
+	[-1] = "NPC WAS STARTLED",
+	[0] = "NPC WAS SLIGHTLY SCARED",
+	[1] = "NPC WAS SCARED",
+	[2] = "NPC WAS VERY SCARED",
+	[3] = "NPC WAS TERRIFIED"
+}
+
 function Controller:initialize(player, enemy)
 	GUIComponent.initialize(self, 0, 0, 0, "battlecontroller")
 
 	self.player = player
 	self.enemy = enemy
 
-	self.player_hp_max = 100
+	self.player_hp_max = self.player:getHP()
 	self.player_hp = self.player_hp_max
 	self.player_hp_bar = self.player_hp_max
 
-	self.enemy_hp_max = 100
+	self.enemy_hp_max = self.enemy:getHP()
 	self.enemy_hp = self.enemy_hp_max
 	self.enemy_hp_bar = self.enemy_hp_max
 
@@ -45,7 +56,11 @@ function Controller:initialize(player, enemy)
 	self.completed = false
 	self.success = false
 
-	self.active = { false, false, false }
+	self.active = {
+		false, -- GHOST
+		false, -- SPLATTER
+		false  -- CRITTER
+	}
 
 	self.bg = Resources.getImage("battle/bg.png")
 	self.cursor = Resources.getImage("battle/cursor.png")
@@ -117,7 +132,10 @@ end
 
 function Controller:attack()
 	self.state = Controller.static.STATE_ATTACK
-	local damage = 2 * self.hits^2
+
+	local effect = self:computeEffect()
+	local multiplier = math.pow(2, effect-1)
+	local damage = math.ceil(multiplier * 2 * self.hits^2)
 
 	local fun = function()
 		if self.enemy_hp == 0 then
@@ -131,8 +149,53 @@ function Controller:attack()
 		self.enemy_hp = math.max(0, self.enemy_hp - damage)
 	end)
 	timer.add(1.0, function()
-		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE", "IT WAS INEFFECTIVE" }, fun))
+		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE", effect_text[effect] }, fun))
 	end)
+end
+
+-- Weakness chart:
+-- GHOST > CRITTER
+-- SPLATTER > GHOST
+-- CRITTER > SPLATTER
+function Controller:computeEffect()
+	local weak = 0
+	local costume = self.enemy:getCostume()
+
+	-- GHOST
+	if self.active[1] then
+		if costume == NPCData.COSTUME_CRITTER
+		or costume == NPCData.COSTUME_GHOST_CRITTER
+		or costume == NPCData.COSTUME_SPLATTER_CRITTER
+		or costume == NPCData.COSTUME_ALL then
+			weak = weak + 1
+		else
+			weak = weak - 1
+		end
+	end
+	-- SPLATTER
+	if self.active[2] then
+		if costume == NPCData.COSTUME_GHOST
+		or costume == NPCData.COSTUME_GHOST_SPLATTER
+		or costume == NPCData.COSTUME_GHOST_CRITTER
+		or costume == NPCData.COSTUME_ALL then
+			weak = weak + 1
+		else
+			weak = weak - 1
+		end
+	end
+	-- CRITTER
+	if self.active[3] then
+		if costume == NPCData.COSTUME_SPLATTER
+		or costume == NPCData.COSTUME_GHOST_SPLATTER
+		or costume == NPCData.COSTUME_SPLATTER_CRITTER
+		or costume == NPCData.COSTUME_ALL then
+			weak = weak + 1
+		else
+			weak = weak - 1
+		end
+	end
+
+	return weak
 end
 
 function Controller:counter()

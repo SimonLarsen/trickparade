@@ -15,7 +15,6 @@ function NPC:initialize(x, y, id, dir)
 	self.state = NPC.static.STATE_IDLE
 	self.id = id
 	self.dir = dir
-	self.type = NPCData[self.id].type
 	self.sprite_id = NPCData[self.id].sprite
 	self.battle = nil
 
@@ -93,7 +92,7 @@ function NPC:startBattle()
 end
 
 function NPC:getType()
-	return self.type
+	return NPCData[self.id].type
 end
 
 function NPC:getDir()
@@ -107,4 +106,13 @@ end
 function NPC:setRange(s)
 	NPCData[self.id].range = 0
 end
+
+function NPC:getHP()
+	return NPCData[self.id].hp
+end
+
+function NPC:getCostume()
+	return NPCData[self.id].costume
+end
+
 return NPC

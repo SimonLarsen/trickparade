@@ -1,10 +1,22 @@
 local Dialog = require("scenes.world.Dialog")
 
-local NPCData = {
-["mom1"] = {
-	type = "npc",
-	sprite = "mom",
+local NPCData = {}
+
+NPCData.TYPE_NPC = 0
+NPCData.TYPE_ENEMY = 1
+
+NPCData.COSTUME_GHOST            = 0
+NPCData.COSTUME_SPLATTER         = 1
+NPCData.COSTUME_CRITTER          = 2
+NPCData.COSTUME_GHOST_SPLATTER   = 3
+NPCData.COSTUME_GHOST_CRITTER    = 4
+NPCData.COSTUME_SPLATTER_CRITTER = 5
+NPCData.COSTUME_ALL              = 6
+
+NPCData["mom1"] = {
+	type = NPCData.TYPE_NPC,
 	name = "MOM",
+	sprite = "mom",
 	state = 0,
 
 	interact = {
@@ -17,14 +29,16 @@ local NPCData = {
 			self.scene:add(Dialog({"MOMMY IS BUSY!!!"}))
 		end
 	}
-},
+}
 
-["ghostkid1"] = {
-	type = "enemy",
-	sprite = "ghost",
+NPCData["ghostkid1"] = {
+	type = NPCData.TYPE_ENEMY,
 	name = "GHOST KID",
+	sprite = "ghost",
+	costume = NPCData.COSTUME_GHOST,
 	state = 0,
 	range = 3,
+	hp = 100,
 
 	interact = {
 		[0] = function(self)
@@ -39,11 +53,8 @@ local NPCData = {
 	},
 
 	onWin = function(self)
-		self:setNPCState(1)
-		self:setRange(0)
+		self:setNPCState(1, 0)
 	end
 }
-}
-
 
 return NPCData

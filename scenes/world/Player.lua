@@ -203,4 +203,8 @@ function Player:setState(state)
 	self.state = state
 end
 
+function Player:getHP()
+	return 100
+end
+
 return Player
