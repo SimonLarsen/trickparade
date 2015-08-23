@@ -6,9 +6,9 @@ timer = require("hump.timer")
 
 Scene = require("Scene")
 Entity = require("Entity")
-Keyboard = require("Keyboard")
-Animation = require("Animation")
-Animator = require("Animator")
+Keyboard = require("input.Keyboard")
+Animation = require("animation.Animation")
+Animator = require("animation.Animator")
 Resources = require("Resources")
 Config = require("Config")
 
@@ -30,7 +30,8 @@ function love.load()
 	Resources.initialize()
 
 	gamestate.registerEvents()
-	gamestate.push(require("scenes.world.WorldScene")())
+	--gamestate.push(require("scenes.world.WorldScene")())
+	gamestate.push(require("scenes.minigame.flicker.FlickerMinigame")())
 end
 
 function love.gui()

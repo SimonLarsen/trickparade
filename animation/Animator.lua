@@ -1,4 +1,4 @@
-local Animation = require("Animation")
+local Animation = require("animation.Animation")
 
 local Animator = class("Animator")
 
