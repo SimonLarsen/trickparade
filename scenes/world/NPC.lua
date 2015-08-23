@@ -37,8 +37,8 @@ end
 
 function NPC:update(dt)
 	if self.state == NPC.static.STATE_BATTLE then
-		if self.minigame then
-			local controller = self.minigame:find("battlecontroller")
+		if self.battle then
+			local controller = self.battle:find("battlecontroller")
 			if controller:isCompleted() then
 				self.state = NPC.static.STATE_IDLE
 				if controller:isSuccess() and NPCData[self.id].onWin then
@@ -47,7 +47,9 @@ function NPC:update(dt)
 				if not controller:isSuccess() and NPCData[self.id].onFail then
 					NPCData[self.id].onFail(self)
 				end
+				self.state = NPC.static.STATE_IDLE
 			end
+			self.battle = nil
 		end
 	end
 end
@@ -74,8 +76,9 @@ function NPC:interact(player)
 	NPCData[self.id].interact[state](self)
 end
 
-function NPC:setNPCState(s)
+function NPC:setNPCState(s, range)
 	NPCData[self.id].state = s
+	if range then self:setRange(range) end
 end
 
 function NPC:startBattle()
@@ -83,8 +86,8 @@ function NPC:startBattle()
 	self.scene:add(Transition(Transition.static.OUT, 1))
 	local player = self.scene:find("player")
 	timer.add(1, function()
-		self.scene:add(Transition(Transition.static.IN, 1))
 		self.battle = BattleScene(player, self)
+		self.scene:add(Transition(Transition.static.IN, 1))
 		gamestate.push(self.battle)
 	end)
 end
@@ -101,4 +104,7 @@ function NPC:getRange()
 	return NPCData[self.id].range or 0
 end
 
+function NPC:setRange(s)
+	NPCData[self.id].range = 0
+end
 return NPC

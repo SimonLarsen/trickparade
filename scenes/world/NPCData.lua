@@ -31,13 +31,16 @@ local NPCData = {
 			self.scene:add(Dialog({ "FITE ME IRL!" }, function()
 				self:startBattle()
 			end))
+		end,
+
+		[1] = function(self)
+			self.scene:add(Dialog({ "YOU CHEATED!" }))
 		end
 	},
 
 	onWin = function(self)
-	end,
-
-	onFail = function(self)
+		self:setNPCState(1)
+		self:setRange(0)
 	end
 }
 }

@@ -1,7 +1,7 @@
 local GUIComponent = class("GUIComponent", Entity)
 
-function GUIComponent:initialize()
-	Entity.initialize(self)
+function GUIComponent:initialize(...)
+	Entity.initialize(self, ...)
 
 	self._box_image = Resources.getImage("gui/box.png")
 	self._button_image = Resources.getImage("gui/button.png")

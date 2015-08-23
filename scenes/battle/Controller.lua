@@ -33,6 +33,7 @@ function Controller:initialize(player, enemy)
 	self.enemy_hp = self.enemy_hp_max
 	self.enemy_hp_bar = self.enemy_hp_max
 
+	self.enemy_hp = 1
 
 	self.state = Controller.static.STATE_SELECT
 	self.selection = 1

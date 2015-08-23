@@ -109,7 +109,7 @@ function Player:checkEnemyFOV()
 			end
 
 			if detected then
-				self.scene:add(Exclamation(v.x, v.y-24))
+				self.scene:add(Exclamation(v.x, v.y-22))
 				v:interact(self)
 				return
 			end
