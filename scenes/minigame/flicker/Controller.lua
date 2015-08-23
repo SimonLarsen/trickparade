@@ -15,6 +15,8 @@ end
 function Controller:update(dt)
 	MinigameController.update(self, dt)
 
+	if self:isCompleted() then return end
+
 	if self.on == true and Keyboard.wasPressed(Config.KEY_DOWN) then
 		self.on = false
 		self.count = self.count + 1

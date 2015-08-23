@@ -1,21 +1,28 @@
 local MinigameController = class("MinigameController", Entity)
 
 local Transition = require("transition.CurtainsTransition")
+local Candle = require("scenes.minigame.Candle")
+
+MinigameController.static.MAX_TIME = 5
 
 function MinigameController:initialize()
 	Entity.initialize(self, 0, 0, 0, "minigamecontroller")
 
-	self.time = 5
+	self.time = MinigameController.static.MAX_TIME
+
 	self.completed = false
 	self.success = false
 end
 
 function MinigameController:enter()
+	self.candle = self.scene:add(Candle(20, HEIGHT))
 	self.scene:add(Transition(Transition.static.IN, 0.5))
 end
 
 function MinigameController:update(dt)
 	self.time = self.time - dt
+	local size = self.time / MinigameController.static.MAX_TIME
+	self.candle:setSize(size)
 
 	if self.time <= 0 then
 		self.time = 0
@@ -24,13 +31,6 @@ function MinigameController:update(dt)
 			self:exit()
 		end
 	end
-end
-
-function MinigameController:gui()
-	love.graphics.setColor(255, 0, 0)
-	local ch = self.time/5*100
-	love.graphics.rectangle("fill", 20, 130-ch, 10, ch)
-	love.graphics.setColor(255, 255, 255)
 end
 
 function MinigameController:isCompleted()
@@ -49,9 +49,11 @@ function MinigameController:onSuccess()
 end
 
 function MinigameController:exit()
-	self.scene:add(Transition(Transition.static.OUT, 0.5))
-	timer.add(0.5, function()
-		gamestate.pop()
+	timer.add(1, function()
+		self.scene:add(Transition(Transition.static.OUT, 0.5))
+		timer.add(0.5, function()
+			gamestate.pop()
+		end)
 	end)
 end
 
