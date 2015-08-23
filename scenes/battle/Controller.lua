@@ -6,8 +6,9 @@ local Controller = class("Controller", GUIComponent)
 
 Controller.static.STATE_SELECT = 0
 Controller.static.STATE_GAME = 1
-Controller.static.STATE_ATTACK = 2
-Controller.static.STATE_COUNTER = 3
+Controller.static.STATE_GAME_TRANSITION = 2
+Controller.static.STATE_ATTACK = 3
+Controller.static.STATE_COUNTER = 4
 
 local names = {
 	"GHOST",
@@ -19,19 +20,31 @@ function Controller:initialize()
 	GUIComponent.initialize(self)
 
 	self.player_hp = 100
+	self.player_hp_bar = self.player_hp
 	self.enemy_hp = 100
+	self.enemy_hp_bar = self.enemy_hp
+
 
 	self.state = Controller.static.STATE_SELECT
 	self.selection = 1
+	self.time = 0
+	self.shakex = 0
+	self.shakey = 0
+	self.next_shake = 0
 
 	self.active = { false, false, false }
 
 	self.bg = Resources.getImage("battle/bg.png")
 	self.cursor = Resources.getImage("battle/cursor.png")
 	self.font = Resources.getImageFont("small.png")
+	self.font_gothic16 = Resources.getFont("gothic.ttf", 16)
+	self.font_gothic32 = Resources.getFont("gothic.ttf", 32)
 end
 
 function Controller:update(dt)
+	self.player_hp_bar = math.movetowards(self.player_hp_bar, self.player_hp, 33*dt)
+	self.enemy_hp_bar = math.movetowards(self.enemy_hp_bar, self.enemy_hp, 33*dt)
+
 	if self.state == Controller.static.STATE_SELECT then
 		if Keyboard.wasPressed(Config.KEY_UP) then if self.selection == 4 then self.selection = 2 end end
 		if Keyboard.wasPressed(Config.KEY_DOWN) then self.selection = 4 end
@@ -46,16 +59,33 @@ function Controller:update(dt)
 			end
 		end
 	elseif self.state == Controller.static.STATE_GAME then
-		local controller = self.minigame:find("minigamecontroller")
-		if controller:isCompleted() then
-			if controller:isSuccess() then
-				self.hits = self.hits + 1
-				self:attack()
-				self.state = Controller.static.STATE_ATTACK
-			else
-				self.state = Controller.static.STATE_SELECT
+		if self.minigame then
+			local controller = self.minigame:find("minigamecontroller")
+			if controller:isCompleted() then
+				if controller:isSuccess() then
+					self.hits = self.hits + 1
+					self.state = Controller.static.STATE_GAME_TRANSITION
+					self.time = 2
+				else
+					self:attack()
+					self.state = Controller.static.STATE_SELECT
+				end
 			end
 		end
+	
+	elseif self.state == Controller.static.STATE_GAME_TRANSITION then
+		self.time = self.time - dt
+		if self.time <= 0 then
+			self:startMinigame()
+		end
+
+		self.next_shake = self.next_shake - dt
+		if self.next_shake <= 0 then
+			self.next_shake = 1/(30+4*self.hits)
+			self.shakex = love.math.randomNormal(self.hits/10, 0)
+			self.shakey = love.math.randomNormal(self.hits/10, 0)
+		end
+
 	elseif self.state == Controller.static.STATE_ATTACK then
 
 	end
@@ -72,9 +102,8 @@ function Controller:startMinigame()
 end
 
 function Controller:attack()
-	self.enemy_hp = self.enemy_hp - 2*self.hits^2
-	timer.add(2, function()
-		self:startMinigame()
+	timer.add(0.5, function()
+		self.enemy_hp = self.enemy_hp - 2*self.hits^2
 	end)
 end
 
@@ -109,6 +138,19 @@ function Controller:gui()
 		else
 			love.graphics.draw(self.cursor, WIDTH/2 + 15, HEIGHT/2+15)
 		end
+	
+	elseif self.state == Controller.static.STATE_GAME_TRANSITION then
+		love.graphics.setColor(0, 0, 0, 128)
+		love.graphics.setFont(self.font_gothic32)
+		love.graphics.printf(self.hits, 2+self.shakex, 56+self.shakey, WIDTH, "center")
+		love.graphics.setFont(self.font_gothic16)
+		love.graphics.printf("SCARES!", 2+self.shakex, 86+self.shakey, WIDTH, "center")
+
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setFont(self.font_gothic32)
+		love.graphics.printf(self.hits, self.shakex, 54+self.shakey, WIDTH, "center")
+		love.graphics.setFont(self.font_gothic16)
+		love.graphics.printf("SCARES!", self.shakex, 84+self.shakey, WIDTH, "center")
 	end
 
 	love.graphics.setColor(255, 255, 255)
@@ -126,8 +168,8 @@ function Controller:gui()
 	love.graphics.rectangle("fill", 8, HEIGHT-12, 100, 4)
 
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.rectangle("fill", WIDTH-8-self.enemy_hp, 20, self.enemy_hp, 4)
-	love.graphics.rectangle("fill", 8, HEIGHT-12, self.player_hp, 4)
+	love.graphics.rectangle("fill", WIDTH-8-self.enemy_hp_bar, 20, self.enemy_hp_bar, 4)
+	love.graphics.rectangle("fill", 8, HEIGHT-12, self.player_hp_bar, 4)
 end
 
 return Controller
