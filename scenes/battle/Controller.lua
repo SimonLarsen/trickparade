@@ -16,8 +16,11 @@ local names = {
 	"CRITTER"
 }
 
-function Controller:initialize()
-	GUIComponent.initialize(self)
+function Controller:initialize(player, enemy)
+	GUIComponent.initialize(self, 0, 0, 0, "battlecontroller")
+
+	self.player = player
+	self.enemy = enemy
 
 	self.player_hp = 100
 	self.player_hp_bar = self.player_hp
@@ -32,6 +35,9 @@ function Controller:initialize()
 	self.shakey = 0
 	self.next_shake = 0
 
+	self.completed = false
+	self.success = false
+
 	self.active = { false, false, false }
 
 	self.bg = Resources.getImage("battle/bg.png")
@@ -41,9 +47,13 @@ function Controller:initialize()
 	self.font_gothic32 = Resources.getFont("gothic.ttf", 32)
 end
 
+function Controller:enter()
+	self.scene:add(Transition(Transition.static.IN, 1))
+end
+
 function Controller:update(dt)
-	self.player_hp_bar = math.movetowards(self.player_hp_bar, self.player_hp, 33*dt)
-	self.enemy_hp_bar = math.movetowards(self.enemy_hp_bar, self.enemy_hp, 33*dt)
+	self.player_hp_bar = math.movetowards(self.player_hp_bar, self.player_hp, 50*dt)
+	self.enemy_hp_bar = math.movetowards(self.enemy_hp_bar, self.enemy_hp, 50*dt)
 
 	if self.state == Controller.static.STATE_SELECT then
 		if Keyboard.wasPressed(Config.KEY_UP) then if self.selection == 4 then self.selection = 2 end end
@@ -59,17 +69,15 @@ function Controller:update(dt)
 			end
 		end
 	elseif self.state == Controller.static.STATE_GAME then
-		if self.minigame then
-			local controller = self.minigame:find("minigamecontroller")
-			if controller:isCompleted() then
-				if controller:isSuccess() then
-					self.hits = self.hits + 1
-					self.state = Controller.static.STATE_GAME_TRANSITION
-					self.time = 2
-				else
-					self:attack()
-					self.state = Controller.static.STATE_SELECT
-				end
+		local controller = self.minigame:find("minigamecontroller")
+		if controller:isCompleted() then
+			if controller:isSuccess() then
+				self.hits = self.hits + 1
+				self.state = Controller.static.STATE_GAME_TRANSITION
+				self.time = 2
+			else
+				self:attack()
+				self.state = Controller.static.STATE_SELECT
 			end
 		end
 	
@@ -170,6 +178,14 @@ function Controller:gui()
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.rectangle("fill", WIDTH-8-self.enemy_hp_bar, 20, self.enemy_hp_bar, 4)
 	love.graphics.rectangle("fill", 8, HEIGHT-12, self.player_hp_bar, 4)
+end
+
+function Controller:isCompleted()
+	return self.completed
+end
+
+function Controller:isSuccess()
+	return self.success
 end
 
 return Controller

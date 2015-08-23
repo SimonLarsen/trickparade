@@ -2,9 +2,12 @@ local Interactable = require("scenes.world.Interactable")
 
 local NPC = class("NPC", Interactable)
 local NPCData = require("scenes.world.NPCData")
+local Transition = require("transition.CurtainsTransition")
+local BattleScene = require("scenes.battle.BattleScene")
 
 NPC.static.STATE_IDLE = 0
 NPC.static.STATE_WALK = 1
+NPC.static.STATE_BATTLE = 2
 
 function NPC:initialize(x, y, id, dir)
 	Interactable.initialize(self, x, y, 0, "npc")
@@ -14,6 +17,7 @@ function NPC:initialize(x, y, id, dir)
 	self.dir = dir
 	self.type = NPCData[self.id].type
 	self.sprite_id = NPCData[self.id].sprite
+	self.battle = nil
 
 	self.sprite = Resources.getImage("world/npc_" .. self.sprite_id .. ".png")
 	self.quads = {}
@@ -28,6 +32,23 @@ function NPC:initialize(x, y, id, dir)
 			fw, fh, 
 			self.sprite:getWidth(), self.sprite:getHeight()
 		)
+	end
+end
+
+function NPC:update(dt)
+	if self.state == NPC.static.STATE_BATTLE then
+		if self.minigame then
+			local controller = self.minigame:find("battlecontroller")
+			if controller:isCompleted() then
+				self.state = NPC.static.STATE_IDLE
+				if controller:isSuccess() and NPCData[self.id].onWin then
+					NPCData[self.id].onWin(self)
+				end
+				if not controller:isSuccess() and NPCData[self.id].onFail then
+					NPCData[self.id].onFail(self)
+				end
+			end
+		end
 	end
 end
 
@@ -55,6 +76,16 @@ end
 
 function NPC:setNPCState(s)
 	NPCData[self.id].state = s
+end
+
+function NPC:startBattle()
+	self.state = NPC.static.STATE_BATTLE
+	self.scene:add(Transition(Transition.static.OUT, 1))
+	local player = self.scene:find("player")
+	timer.add(1, function()
+		self.battle = BattleScene(player, self)
+		gamestate.push(self.battle)
+	end)
 end
 
 function NPC:getType()

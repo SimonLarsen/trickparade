@@ -28,9 +28,17 @@ local NPCData = {
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({ "FITE ME IRL!" }))
+			self.scene:add(Dialog({ "FITE ME IRL!" }, function()
+				self:startBattle()
+			end))
 		end
-	}
+	},
+
+	onWin = function(self)
+	end,
+
+	onFail = function(self)
+	end
 }
 }
 

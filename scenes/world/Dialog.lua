@@ -7,11 +7,12 @@ local Player = require("scenes.world.Player")
 Dialog.static.CHAR_WAIT = 0.05
 Dialog.static.LINE_WAIT = 0.5
 
-function Dialog:initialize(lines)
+function Dialog:initialize(lines, fun)
 	GUIComponent.initialize(self)
 
 	self.font = Resources.getImageFont("small.png")
 
+	self.fun = fun
 	self.lines = lines
 	self.line = 1
 	self.char = 1
@@ -48,6 +49,7 @@ function Dialog:update(dt)
 	and self.line == #self.lines and self.char == self.lines[self.line]:len() then
 		self.scene:find("player"):setState(Player.static.STATE_IDLE)
 		self:kill()
+		if self.fun then self.fun() end
 	end
 end
 
