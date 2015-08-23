@@ -2,8 +2,7 @@ local GUIComponent = require("gui.GUIComponent")
 
 local Menu = class("Menu", GUIComponent)
 
-Menu.static.OPTIONS = {
-	"COSTUMES",
+Menu.static.OPTIONS = { "COSTUMES",
 	"ITEMS",
 	"STATS",
 	"OPTIONS",
@@ -31,7 +30,12 @@ function Menu:update(dt)
 		end
 
 	elseif Keyboard.wasPressed(Config.KEY_ACTION) then
-		if self.selection == 5 then
+		if self.selection == 1 then
+			gamestate.push(require("scenes.world.menu.CostumeMenuScene")())
+
+		elseif self.selection == 2 then
+			gamestate.push(require("scenes.world.menu.ItemMenuScene")())
+		elseif self.selection == 5 then
 			self:exit()
 		end
 
