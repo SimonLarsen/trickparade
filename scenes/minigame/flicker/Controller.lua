@@ -23,6 +23,10 @@ function Controller:update(dt)
 		self.on = true
 		self.count = self.count + 1
 	end
+
+	if self.count >= 10 and not self:isSuccess() then
+		self:onSuccess()
+	end
 end
 
 function Controller:draw()
