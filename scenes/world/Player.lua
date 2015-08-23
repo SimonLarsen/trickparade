@@ -4,6 +4,7 @@ local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
 local Interactable = require("scenes.world.Interactable")
 local Menu = require("scenes.world.Menu")
+local Exclamation = require("scenes.world.Exclamation")
 
 local Transition = require("transition.CurtainsTransition")
 
@@ -67,6 +68,7 @@ function Player:update(dt)
 			self.moved = 0
 			self.state = Player.static.STATE_IDLE
 			CollisionHandler.checkAll(self.scene, dt)
+			self:checkEnemyFOV()
 		end
 	end
 
@@ -74,6 +76,45 @@ function Player:update(dt)
 		math.min(math.max(self.x, WIDTH/2), self.tilemap:getWidth() - WIDTH/2),
 		math.min(math.max(self.y, HEIGHT/2), self.tilemap:getHeight() - HEIGHT/2)
 	)
+end
+
+function Player:checkEnemyFOV()
+	local cx, cy = self:getTile()
+
+	for i,v in ipairs(self.scene:getEntities()) do
+		if v:getName() == "npc" then
+			local ocx, ocy = v:getTile()
+			local dir = v:getDir()
+			local range = v:getRange()
+			local detected = false
+
+			if dir == 0 and cx == ocx
+			and cy < ocy and cy >= ocy-range then
+				detected = true
+			end
+
+			if dir == 1 and cy == ocy
+			and cx > ocx and cx <= ocx+range then
+				detected = true
+			end
+
+			if dir == 2 and cx == ocx
+			and cy > ocy and cy <= ocy+range then
+				detected = true
+			end
+
+			if dir == 3 and cy == ocy
+			and cx < ocx and cx >= ocx-range then
+				detected = true
+			end
+
+			if detected then
+				self.scene:add(Exclamation(v.x, v.y-24))
+				v:interact(self)
+				return
+			end
+		end
+	end
 end
 
 function Player:move(dir)

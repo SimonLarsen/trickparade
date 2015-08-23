@@ -1,10 +1,10 @@
 local Dialog = require("scenes.world.Dialog")
 
 local NPCData = {
-}
-
-NPCData["mom1"] = {
-	type = "mom",
+["mom1"] = {
+	type = "npc",
+	sprite = "mom",
+	name = "MOM",
 	state = 0,
 
 	interact = {
@@ -17,6 +17,22 @@ NPCData["mom1"] = {
 			self.scene:add(Dialog({"MOMMY IS BUSY!!!"}))
 		end
 	}
+},
+
+["ghostkid1"] = {
+	type = "enemy",
+	sprite = "ghost",
+	name = "GHOST KID",
+	state = 0,
+	range = 3,
+
+	interact = {
+		[0] = function(self)
+			self.scene:add(Dialog({ "FITE ME IRL!" }))
+		end
+	}
 }
+}
+
 
 return NPCData

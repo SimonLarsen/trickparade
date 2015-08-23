@@ -7,7 +7,7 @@ return {
   height = 32,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 25,
+  nextobjectid = 28,
   properties = {},
   tilesets = {
     {
@@ -196,6 +196,22 @@ return {
           properties = {
             ["dir"] = "2",
             ["id"] = "mom1"
+          }
+        },
+        {
+          id = 27,
+          name = "",
+          type = "npc",
+          shape = "rectangle",
+          x = 144,
+          y = 288,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["dir"] = "3",
+            ["id"] = "ghostkid1"
           }
         }
       }

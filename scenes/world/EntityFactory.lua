@@ -13,7 +13,6 @@ function EntityFactory.create(o)
 			tonumber(o.properties.desty),
 			tonumber(o.properties.dir)
 		)
-
 	elseif o.type == "text" then
 		local lines = o.properties.lines:split("##")
 		return Text(
@@ -21,7 +20,6 @@ function EntityFactory.create(o)
 			o.y + TILEW/2,
 			lines
 		)
-
 	elseif o.type == "note" then
 		local lines = o.properties.lines:split("##")
 		return Note(

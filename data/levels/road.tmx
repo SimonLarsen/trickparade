@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="32" tilewidth="16" tileheight="16" nextobjectid="25">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="32" tilewidth="16" tileheight="16" nextobjectid="28">
  <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16" tilecount="1024">
   <image source="../images/world/tilemap.png" width="512" height="512"/>
  </tileset>
@@ -82,6 +82,12 @@
    <properties>
     <property name="dir" value="2"/>
     <property name="id" value="mom1"/>
+   </properties>
+  </object>
+  <object id="27" type="npc" x="160" y="288" width="16" height="16">
+   <properties>
+    <property name="dir" value="3"/>
+    <property name="id" value="ghostkid1"/>
    </properties>
   </object>
  </objectgroup>

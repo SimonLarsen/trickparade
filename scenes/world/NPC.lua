@@ -13,16 +13,32 @@ function NPC:initialize(x, y, id, dir)
 	self.id = id
 	self.dir = dir
 	self.type = NPCData[self.id].type
+	self.sprite_id = NPCData[self.id].sprite
 
-	self.sprite = Resources.getImage("world/npc_" .. self.type .. ".png")
+	self.sprite = Resources.getImage("world/npc_" .. self.sprite_id .. ".png")
 	self.quads = {}
-	for i=0, 3 do
-		self.quads[i] = love.graphics.newQuad(i*16, 0, 16, 20, 64, 20)
+
+	local fw = math.floor(self.sprite:getWidth() / 3)
+	local fh = self.sprite:getHeight()
+	self.ox = fw/2
+	self.oy = fh-6
+	for i=0, 2 do
+		self.quads[i] = love.graphics.newQuad(
+			i*fw, 0,
+			fw, fh, 
+			self.sprite:getWidth(), self.sprite:getHeight()
+		)
 	end
 end
 
 function NPC:draw()
-	love.graphics.draw(self.sprite, self.quads[self.dir], self.x, self.y, 0, 1, 1, 8, 15)
+	local frame = 2 - self.dir
+	local sx = 1
+	if self.dir == 3 then
+		frame = 1
+		sx = -1
+	end
+	love.graphics.draw(self.sprite, self.quads[frame], self.x, self.y, 0, sx, 1, self.ox, self.oy)
 end
 
 function NPC:interact(player)
@@ -39,6 +55,18 @@ end
 
 function NPC:setNPCState(s)
 	NPCData[self.id].state = s
+end
+
+function NPC:getType()
+	return self.type
+end
+
+function NPC:getDir()
+	return self.dir
+end
+
+function NPC:getRange()
+	return NPCData[self.id].range or 0
 end
 
 return NPC
