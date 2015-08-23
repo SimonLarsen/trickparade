@@ -21,13 +21,13 @@ local names = {
 }
 
 local effect_text = {
-	[-3] = "NPC LAUGHS AT YOU",
-	[-2] = "NPC WAS UNPHASED",
-	[-1] = "NPC WAS STARTLED",
-	[0] = "NPC WAS SLIGHTLY SCARED",
-	[1] = "NPC WAS SCARED",
-	[2] = "NPC WAS VERY SCARED",
-	[3] = "NPC WAS TERRIFIED"
+	[-3] = " LAUGHS AT YOU",
+	[-2] = " WAS UNPHASED",
+	[-1] = " WAS STARTLED",
+	[0] = " WAS SLIGHTLY SCARED",
+	[1] = " WAS SCARED",
+	[2] = " WAS VERY SCARED",
+	[3] = " WAS TERRIFIED"
 }
 
 function Controller:initialize(player, enemy)
@@ -43,6 +43,9 @@ function Controller:initialize(player, enemy)
 	self.enemy_hp_max = self.enemy:getHP()
 	self.enemy_hp = self.enemy_hp_max
 	self.enemy_hp_bar = self.enemy_hp_max
+
+	self.player_sprite, self.player_quad = self.player:getSprite()
+	self.enemy_sprite, self.enemy_quad = self.enemy:getSprite()
 
 	self.state = Controller.static.STATE_SELECT
 	self.selection = 1
@@ -62,6 +65,9 @@ function Controller:initialize(player, enemy)
 
 	self.bg = Resources.getImage("battle/bg.png")
 	self.cursor = Resources.getImage("battle/cursor.png")
+	self.health_base = Resources.getImage("battle/health_base.png")
+	self.health_bar = Resources.getImage("battle/health_bar.png")
+
 	self.font = Resources.getImageFont("small.png")
 	self.font_gothic16 = Resources.getFont("gothic.ttf", 16)
 	self.font_gothic32 = Resources.getFont("gothic.ttf", 32)
@@ -147,7 +153,7 @@ function Controller:attack()
 		self.enemy_hp = math.max(0, self.enemy_hp - damage)
 	end)
 	timer.add(1.0, function()
-		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE", effect_text[effect] }, fun))
+		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE", self.enemy:getNPCName() .. effect_text[effect] }, fun))
 	end)
 end
 
@@ -210,7 +216,7 @@ function Controller:counter()
 
 	self.player_hp = math.max(0, self.player_hp - damage)
 	timer.add(1.0, function()
-		self.scene:add(Dialog({ "NPC DEALTH " .. damage .. " DAMAGE" }, fun))
+		self.scene:add(Dialog({ self.enemy:getNPCName() .. " DEALTH " .. damage .. " DAMAGE" }, fun))
 	end)
 end
 
@@ -269,11 +275,18 @@ function Controller:gui()
 	love.graphics.printf("BULLY", 8, 8, WIDTH-16, "right")
 	love.graphics.printf("PLAYER", 8, HEIGHT-24, WIDTH-16, "left")
 
+	local qx, qy, qw, qh = self.player_quad:getViewport()
+	love.graphics.draw(self.player_sprite, self.player_quad, 223, 144, 0, 1, 1, math.floor(qw/2), math.floor(qh/2))
+	qx, qy, qw, qh = self.enemy_quad:getViewport()
+	love.graphics.draw(self.enemy_sprite, self.enemy_quad, 17, 16, 0, 1, 1, math.floor(qw/2), math.floor(qh/2))
+
 	-- Draw health bars
 	local elen = self.enemy_hp_bar / self.enemy_hp_max * 100
 	local plen = self.player_hp_bar / self.player_hp_max * 100
-	love.graphics.rectangle("fill", WIDTH-8-elen, 20, elen, 4)
-	love.graphics.rectangle("fill", 8, HEIGHT-12, plen, 4)
+	love.graphics.draw(self.health_base, 130, 19)
+	love.graphics.draw(self.health_base, 8, 147)
+	love.graphics.draw(self.health_bar, 132, 20, 0, elen, 1)
+	love.graphics.draw(self.health_bar, 10, 148, 0, plen, 1)
 end
 
 function Controller:onWin()
@@ -286,7 +299,7 @@ function Controller:onWin()
 		timer.add(1, function() gamestate.pop() end)
 	end
 
-	self.scene:add(Dialog({ "YOU DEFEATED NPC" }, fun))
+	self.scene:add(Dialog({ "YOU DEFEATED " .. self.enemy:getNPCName()}, fun))
 end
 
 function Controller:onFail()
@@ -299,7 +312,7 @@ function Controller:onFail()
 		timer.add(1, function() gamestate.pop() end)
 	end
 
-	self.scene:add(Dialog({ "NPC SCARED YOU AWAY" }, fun))
+	self.scene:add(Dialog({ "YOU RAN AWAY SCARED" }, fun))
 end
 
 function Controller:isCompleted()

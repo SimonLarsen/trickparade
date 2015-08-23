@@ -17,14 +17,15 @@ Player.static.WALK_SPEED = 64
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0, "player")
 
+	self.collider = BoxCollider(16, 16)
+
+	self.state = Player.static.STATE_IDLE
+	self.costume = "base"
+
 	self.anim = Animation(
 		Resources.getImage("world/player_base_down.png"),
 		16, 21, 1/8, true, 8, 15
 	)
-
-	self.collider = BoxCollider(16, 16)
-
-	self.state = Player.static.STATE_IDLE
 	self.anim._frame = 2
 	self:setDir(2)
 end
@@ -205,6 +206,15 @@ end
 
 function Player:getHP()
 	return 100
+end
+
+function Player:getSprite()
+	local spr = Resources.getImage("world/player_" .. self.costume .. "_down.png")
+	local fw = math.floor(spr:getWidth() / 4)
+	local fh = spr:getHeight()
+	local quad = love.graphics.newQuad(0, 0, fw, fh, spr:getWidth(), spr:getHeight())
+
+	return spr, quad
 end
 
 return Player

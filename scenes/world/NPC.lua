@@ -92,6 +92,10 @@ function NPC:getType()
 	return NPCData[self.id].type
 end
 
+function NPC:getNPCName()
+	return NPCData[self.id].name
+end
+
 function NPC:getDir()
 	return self.dir
 end
@@ -114,6 +118,10 @@ end
 
 function NPC:getCostume()
 	return NPCData[self.id].costume
+end
+
+function NPC:getSprite()
+	return self.sprite, self.quads[0]
 end
 
 return NPC
