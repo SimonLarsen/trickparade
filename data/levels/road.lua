@@ -96,8 +96,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["destx"] = "27",
-            ["desty"] = "26",
+            ["destx"] = "8",
+            ["desty"] = "14",
             ["dir"] = "2"
           }
         },
@@ -113,7 +113,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["destx"] = "12",
+            ["destx"] = "10",
             ["desty"] = "7",
             ["dir"] = "0"
           }

@@ -3,6 +3,7 @@ require("StringUtils")
 class = require("middleclass.middleclass")
 gamestate = require("hump.gamestate")
 timer = require("hump.timer")
+tween = require("tween.tween")
 
 Scene = require("Scene")
 Entity = require("Entity")

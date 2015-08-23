@@ -57,6 +57,10 @@ function Tilemap:load(id)
 end
 
 function Tilemap:isSolid(x, y)
+	if x < 0 or x >= self.mapw
+	or y < 0 or y >= self.maph then
+		return true
+	end
 	return self.data[x][y] >= 512
 end
 

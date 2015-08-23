@@ -5,9 +5,11 @@ local CollisionHandler = require("CollisionHandler")
 local Interactable = require("scenes.world.Interactable")
 local Menu = require("scenes.world.Menu")
 
+local Transition = require("transition.CurtainsTransition")
+
 Player.static.STATE_IDLE = 0
 Player.static.STATE_WALK = 1
-Player.static.STATE_DIALOG = 2
+Player.static.STATE_FREEZE = 2
 
 Player.static.WALK_SPEED = 64
 
@@ -45,7 +47,7 @@ function Player:update(dt)
 			self:interact()
 	
 		elseif Keyboard.wasPressed(Config.KEY_CANCEL, true) then
-			self.state = Player.static.STATE_DIALOG
+			self.state = Player.static.STATE_FREEZE
 			self.scene:add(Menu())
 		end
 	
@@ -142,10 +144,17 @@ end
 function Player:onCollide(o)
 	if self.state == Player.static.STATE_IDLE
 	and o:getName() == "teleport" then
-		self.x = (o.destx+0.5)*TILEW
-		self.y = (o.desty+0.5)*TILEW
+		self.scene:add(Transition(Transition.static.OUT, 1))
+		self:setState(Player.static.STATE_FREEZE)
+		timer.add(1, function()
+			self.x = (o.destx+0.5)*TILEW
+			self.y = (o.desty+0.5)*TILEW
 
-		self:move(o.dir)
+			self.scene:add(Transition(Transition.static.IN, 1))
+		end)
+		timer.add(1.5, function()
+			self:move(o.dir)
+		end)
 	end
 end
 

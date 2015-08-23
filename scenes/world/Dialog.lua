@@ -20,7 +20,7 @@ function Dialog:initialize(lines)
 end
 
 function Dialog:enter()
-	self.scene:find("player"):setState(Player.static.STATE_DIALOG)
+	self.scene:find("player"):setState(Player.static.STATE_FREEZE)
 end
 
 function Dialog:update(dt)

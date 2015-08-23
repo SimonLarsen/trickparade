@@ -42,14 +42,14 @@
  <objectgroup name="objects">
   <object id="14" type="teleport" x="160" y="112" width="32" height="16">
    <properties>
-    <property name="destx" value="27"/>
-    <property name="desty" value="26"/>
+    <property name="destx" value="8"/>
+    <property name="desty" value="14"/>
     <property name="dir" value="2"/>
    </properties>
   </object>
   <object id="15" type="teleport" x="128" y="224" width="16" height="16">
    <properties>
-    <property name="destx" value="12"/>
+    <property name="destx" value="10"/>
     <property name="desty" value="7"/>
     <property name="dir" value="0"/>
    </properties>
