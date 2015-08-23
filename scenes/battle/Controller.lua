@@ -1,6 +1,7 @@
 local GUIComponent = require("gui.GUIComponent")
 local MinigameFactory = require("scenes.battle.MinigameFactory")
 local Transition = require("transition.CurtainsTransition")
+local Dialog = require("scenes.battle.Dialog")
 
 local Controller = class("Controller", GUIComponent)
 
@@ -9,6 +10,8 @@ Controller.static.STATE_GAME = 1
 Controller.static.STATE_GAME_TRANSITION = 2
 Controller.static.STATE_ATTACK = 3
 Controller.static.STATE_COUNTER = 4
+Controller.static.STATE_WIN = 5
+Controller.static.STATE_FAIL = 6
 
 local names = {
 	"GHOST",
@@ -22,10 +25,13 @@ function Controller:initialize(player, enemy)
 	self.player = player
 	self.enemy = enemy
 
-	self.player_hp = 100
-	self.player_hp_bar = self.player_hp
-	self.enemy_hp = 100
-	self.enemy_hp_bar = self.enemy_hp
+	self.player_hp_max = 100
+	self.player_hp = self.player_hp_max
+	self.player_hp_bar = self.player_hp_max
+
+	self.enemy_hp_max = 100
+	self.enemy_hp = self.enemy_hp_max
+	self.enemy_hp_bar = self.enemy_hp_max
 
 
 	self.state = Controller.static.STATE_SELECT
@@ -77,7 +83,6 @@ function Controller:update(dt)
 				self.time = 2
 			else
 				self:attack()
-				self.state = Controller.static.STATE_SELECT
 			end
 		end
 	
@@ -110,8 +115,40 @@ function Controller:startMinigame()
 end
 
 function Controller:attack()
+	self.state = Controller.static.STATE_ATTACK
+	local damage = 2 * self.hits^2
+
+	local fun = function()
+		if self.enemy_hp == 0 then
+			self:onWin()
+		else
+			self:counter()
+		end
+	end
+
 	timer.add(0.5, function()
-		self.enemy_hp = self.enemy_hp - 2*self.hits^2
+		self.enemy_hp = math.max(0, self.enemy_hp - damage)
+	end)
+	timer.add(1.0, function()
+		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE", "IT WAS INEFFECTIVE" }, fun))
+	end)
+end
+
+function Controller:counter()
+	self.state = Controller.static.STATE_COUNTER
+	local damage = 25
+
+	local fun = function()
+		if self.player_hp == 0 then
+			self:onFail()
+		else
+			self.state = Controller.static.STATE_SELECT
+		end
+	end
+
+	self.player_hp = math.max(0, self.player_hp - damage)
+	timer.add(1.0, function()
+		self.scene:add(Dialog({ "NPC DEALTH " .. damage .. " DAMAGE", "IT WAS VERY EFFECTIVE" }, fun))
 	end)
 end
 
@@ -171,13 +208,36 @@ function Controller:gui()
 	love.graphics.printf("PLAYER", 8, HEIGHT-24, WIDTH-16, "left")
 
 	-- Draw health bars
-	love.graphics.setColor(0, 0, 0)
-	love.graphics.rectangle("fill", WIDTH-108, 20, 100, 4)
-	love.graphics.rectangle("fill", 8, HEIGHT-12, 100, 4)
+	local elen = self.enemy_hp_bar / self.enemy_hp_max * 100
+	local plen = self.player_hp_bar / self.player_hp_max * 100
+	love.graphics.rectangle("fill", WIDTH-8-elen, 20, elen, 4)
+	love.graphics.rectangle("fill", 8, HEIGHT-12, plen, 4)
+end
 
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.rectangle("fill", WIDTH-8-self.enemy_hp_bar, 20, self.enemy_hp_bar, 4)
-	love.graphics.rectangle("fill", 8, HEIGHT-12, self.player_hp_bar, 4)
+function Controller:onWin()
+	self.state = Controller.static.STATE_WIN
+	self.completed = true
+	self.success = true
+
+	local fun = function()
+		self.scene:add(Transition(Transition.static.OUT, 1))
+		timer.add(1, function() gamestate.pop() end)
+	end
+
+	self.scene:add(Dialog({ "YOU DEFEATED NPC" }, fun))
+end
+
+function Controller:onFail()
+	self.state = Controller.static.STATE_FAIL
+	self.completed = true
+	self.success = false
+
+	local fun = function()
+		self.scene:add(Transition(Transition.static.OUT, 1))
+		timer.add(1, function() gamestate.pop() end)
+	end
+
+	self.scene:add(Dialog({ "NPC SCARED YOU AWAY" }, fun))
 end
 
 function Controller:isCompleted()
