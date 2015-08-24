@@ -13,6 +13,7 @@ NPCData.COSTUME_GHOST_CRITTER    = 4
 NPCData.COSTUME_SPLATTER_CRITTER = 5
 NPCData.COSTUME_ALL              = 6
 
+-- Mom inside home
 NPCData["mom"] = {
 	type = NPCData.TYPE_NPC,
 	name = "MOM",
@@ -21,35 +22,39 @@ NPCData["mom"] = {
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({"TONIGHT IS HALLOWEEN", "AREN'T YOU EXCITED?"}))
+			self.scene:add(Dialog({"MOM: I MADE A CUSTOME FOR","YOU OUT OF YOUR OLD BED","SHEETS."}, function()
+				self.scene:find("player"):giveCostume("ghost")
+				self.scene:add(Dialog({"MOM GAVE YOU GHOST COSTUME!"}))
+			end))
 			self:setNPCState(1)
 		end,
 
 		[1] = function(self)
-			self.scene:add(Dialog({"YOU SHOULD MAKE A COSTUME", "OUT OF YOUR BED SHEETS!"}))
+			self.scene:add(Dialog({"HAVE FUN!"}))
 		end
 	}
 }
 
-NPCData["ghostkid1"] = {
+-- Wolf outside start house
+NPCData["wolfkid1"] = {
 	type = NPCData.TYPE_ENEMY,
-	name = "GHOST KID",
-	sprite = "ghost",
-	costume = NPCData.COSTUME_GHOST,
+	name = "WOLF KID",
+	sprite = "wolf",
+	costume = NPCData.COSTUME_CRITTER,
 	state = 0,
-	range = 3,
-	hp = 100,
-	damage = 20,
+	range = 2,
+	hp = 30,
+	damage = 10,
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({ "FITE ME IRL!" }, function()
+			self.scene:add(Dialog({ "GRRR!" }, function()
 				self:startBattle()
 			end))
 		end,
 
 		[1] = function(self)
-			self.scene:add(Dialog({ "YOU CHEATED!" }))
+			self.scene:add(Dialog({ "YOU'RE MEAN!" }))
 		end
 	},
 

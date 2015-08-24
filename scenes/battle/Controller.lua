@@ -30,6 +30,17 @@ local effect_text = {
 	[3] = " WAS TERRIFIED"
 }
 
+local base_dmg = {
+	[0] = 0,
+	[1] = 5,
+	[2] = 13,
+	[3] = 23,
+	[4] = 37,
+	[5] = 60
+}
+
+Controller.static.MAX_HITS = 5
+
 function Controller:initialize(player, enemy)
 	GUIComponent.initialize(self, 0, 0, 0, "battlecontroller")
 
@@ -57,6 +68,11 @@ function Controller:initialize(player, enemy)
 	self.completed = false
 	self.success = false
 
+	self.enabled = {}
+	self.enabled[1] = self.player:getDamage("ghost") > 0
+	self.enabled[2] = self.player:getDamage("splatter") > 0
+	self.enabled[3] = self.player:getDamage("critter") > 0
+
 	self.active = {
 		false, -- GHOST
 		false, -- SPLATTER
@@ -78,8 +94,8 @@ function Controller:enter()
 end
 
 function Controller:update(dt)
-	self.player_hp_bar = math.movetowards(self.player_hp_bar, self.player_hp, 50*dt)
-	self.enemy_hp_bar = math.movetowards(self.enemy_hp_bar, self.enemy_hp, 50*dt)
+	self.player_hp_bar = math.movetowards(self.player_hp_bar, self.player_hp, self.player_hp_max/2*dt)
+	self.enemy_hp_bar = math.movetowards(self.enemy_hp_bar, self.enemy_hp, self.enemy_hp_max/2*dt)
 
 	if self.state == Controller.static.STATE_SELECT then
 		if Keyboard.wasPressed(Config.KEY_UP) then if self.selection == 4 then self.selection = 2 end end
@@ -88,8 +104,11 @@ function Controller:update(dt)
 		if Keyboard.wasPressed(Config.KEY_RIGHT) then if self.selection ~= 4 then self.selection = math.min(3, self.selection+1) end end 
 
 		if Keyboard.wasPressed(Config.KEY_ACTION) then
-			if self.selection <= 3 then self.active[self.selection] = not self.active[self.selection] end
-			if self.selection == 4 then
+			if self.selection <= 3 then
+				self.active[self.selection] = not self.active[self.selection] and self.enabled[self.selection]
+			end
+			if self.selection == 4
+			and self.active[1] or self.active[2] or self.active[3] then
 				self.hits = 0
 				self:startMinigame()
 			end
@@ -97,19 +116,23 @@ function Controller:update(dt)
 	elseif self.state == Controller.static.STATE_GAME then
 		local controller = self.minigame:find("minigamecontroller")
 		if controller:isCompleted() then
+			self.state = Controller.static.STATE_GAME_TRANSITION
+			self.time = 2
+
 			if controller:isSuccess() then
 				self.hits = self.hits + 1
-				self.state = Controller.static.STATE_GAME_TRANSITION
-				self.time = 2
-			else
-				self:attack()
 			end
 		end
 	
 	elseif self.state == Controller.static.STATE_GAME_TRANSITION then
 		self.time = self.time - dt
 		if self.time <= 0 then
-			self:startMinigame()
+			local controller = self.minigame:find("minigamecontroller")
+			if controller:isSuccess() and self.hits < Controller.static.MAX_HITS then
+				self:startMinigame()
+			else
+				self:attack()
+			end
 		end
 
 		self.next_shake = self.next_shake - dt
@@ -139,7 +162,7 @@ function Controller:attack()
 
 	local effect = self:computeEffect()
 	local multiplier = math.pow(2, effect-1)
-	local damage = math.ceil(multiplier * 2 * self.hits^2)
+	local damage = math.ceil(base_dmg[self.hits] * multiplier)
 
 	local fun = function()
 		if self.enemy_hp == 0 then
@@ -153,7 +176,7 @@ function Controller:attack()
 		self.enemy_hp = math.max(0, self.enemy_hp - damage)
 	end)
 	timer.add(1.0, function()
-		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE", self.enemy:getNPCName() .. effect_text[effect] }, fun))
+		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE.", self.enemy:getNPCName() .. effect_text[effect] }, fun))
 	end)
 end
 
@@ -227,7 +250,11 @@ function Controller:gui()
 	if self.state == Controller.static.STATE_SELECT then
 		-- Draw toggle buttons
 		for i=1,3 do
-			love.graphics.setColor(255, 255, 255)
+			if self.enabled[i] then
+				love.graphics.setColor(255, 255, 255)
+			else
+				love.graphics.setColor(128, 128, 128, 128)
+			end
 			if self.active[i] then
 				self:drawButtonActive(WIDTH/2 - 110 + (i-1)*75, HEIGHT/2-30, 70, 20)
 			else

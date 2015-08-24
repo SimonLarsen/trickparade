@@ -25,7 +25,7 @@ function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
 
-	love.window.setMode(WIDTH*SCALE, HEIGHT*SCALE, {vsync = true, fullscreen = false})
+	love.window.setMode(WIDTH*SCALE, HEIGHT*SCALE, {fullscreen = false})
 
 	canvas = love.graphics.newCanvas(WIDTH, HEIGHT)
 

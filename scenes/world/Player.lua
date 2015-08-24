@@ -23,7 +23,7 @@ function Player:initialize(x, y)
 	self.costume = "base"
 
 	self.anim = Animation(
-		Resources.getImage("world/player_base_down.png"),
+		Resources.getImage("world/player_" .. self.costume .. "_down.png"),
 		16, 21, 1/8, true, 8, 15
 	)
 	self.anim._frame = 2
@@ -140,10 +140,10 @@ end
 function Player:setDir(dir)
 	self.dir = dir
 	local img
-	if self.dir == 0 then img = Resources.getImage("world/player_base_up.png")
-	elseif self.dir == 1 then img = Resources.getImage("world/player_base_side.png")
-	elseif self.dir == 2 then img = Resources.getImage("world/player_base_down.png")
-	elseif self.dir == 3 then img = Resources.getImage("world/player_base_side.png")
+	if self.dir == 0 then img = Resources.getImage("world/player_"..self.costume.."_up.png")
+	elseif self.dir == 1 then img = Resources.getImage("world/player_"..self.costume.."_side.png")
+	elseif self.dir == 2 then img = Resources.getImage("world/player_"..self.costume.."_down.png")
+	elseif self.dir == 3 then img = Resources.getImage("world/player_"..self.costume.."_side.png")
 	end
 	self.anim._image = img
 end
@@ -226,6 +226,36 @@ end
 
 function Player:getCostume()
 	return self.costume
+end
+
+function Player:setCostume(c)
+	self.costume = c
+	self:setDir(self.dir)
+end
+
+function Player:giveCostume(c)
+	if c == "ghost" and self.costume == "base" then
+		self:setCostume(c)
+	end
+	if c == "franken" and self.costume == "ghost" then
+		self:setCostume(c)
+	end
+	if c == "wolf" then
+		self:setCostume(c)
+	end
+end
+
+function Player:getDamage(type)
+	if type == "ghost" then
+		if self.costume == "ghost" then return 1 end
+
+	elseif type == "splatter" then
+
+	elseif type == "critter" then
+
+	end
+
+	return 0
 end
 
 return Player

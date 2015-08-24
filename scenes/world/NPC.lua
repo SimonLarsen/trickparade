@@ -69,7 +69,10 @@ function NPC:interact(player)
 	if player.x < self.x then self.dir = 3 end
 
 	local state = NPCData[self.id].state
-	NPCData[self.id].interact[state](self)
+
+	if NPCData[self.id].interact[state] then
+		NPCData[self.id].interact[state](self)
+	end
 end
 
 function NPC:setNPCState(s, range)

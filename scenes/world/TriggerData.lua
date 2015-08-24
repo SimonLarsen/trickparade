@@ -4,7 +4,7 @@ local Dialog = require("scenes.world.Dialog")
 
 TriggerData["need_costume"] = function(self)
 	local player = self.scene:find("player")
-	if player:getCostume() == "baseDELETE_ME" then
+	if player:getCostume() == "base" then
 		self.scene:add(
 			Dialog(
 				{ "YOU CAN'T GO OUT ON", "HALLOWEEN WITHOUT A COSTUME!"},
