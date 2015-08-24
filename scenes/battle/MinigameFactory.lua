@@ -19,7 +19,7 @@ local games = {
 
 function MinigameFactory.random(active, level)
 	--local rand = love.math.random(2, #games)
-	rand = 7
+	rand = 1
 
 	local scene = MinigameScene()
 	scene:add(require(games[rand])(level))

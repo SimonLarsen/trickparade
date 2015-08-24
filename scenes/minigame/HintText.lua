@@ -9,7 +9,7 @@ function HintText:initialize(text, intime)
 	self.texty = -16
 	self.font = Resources.getFont("gothic.ttf", 16)
 
-	self.tween = tween.new(0.8, self, {texty = HEIGHT/2-8}, "outBounce")
+	self.tween = tween.new(0.6, self, {texty = HEIGHT/2-8}, "outBounce")
 end
 
 function HintText:update(dt)
