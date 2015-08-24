@@ -3,7 +3,7 @@ local MinigameController = require("scenes.minigame.MinigameController")
 local Controller = class("Controller", MinigameController)
 
 function Controller:initialize()
-	MinigameController.initialize(self)
+	MinigameController.initialize(self, "FLICKER THE LIGHTS")
 
 	self.bg_on = Resources.getImage("minigame/flicker/bg_on.png")
 	self.bg_off = Resources.getImage("minigame/flicker/bg_off.png")

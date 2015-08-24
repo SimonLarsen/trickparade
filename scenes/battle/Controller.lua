@@ -149,7 +149,7 @@ end
 
 function Controller:startMinigame()
 	self.state = Controller.static.STATE_GAME
-	self.minigame = MinigameFactory.random(self.active)
+	self.minigame = MinigameFactory.random(self.active, self.hits+1)
 	self.scene:add(Transition(Transition.static.OUT, 0.5))
 	timer.add(0.5, function()
 		gamestate.push(self.minigame)

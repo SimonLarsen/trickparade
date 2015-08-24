@@ -2,20 +2,25 @@ local MinigameController = class("MinigameController", Entity)
 
 local Transition = require("transition.CurtainsTransition")
 local Candle = require("scenes.minigame.Candle")
+local HintText = require("scenes.minigame.HintText")
 
 MinigameController.static.MAX_TIME = 5
 
-function MinigameController:initialize()
+function MinigameController:initialize(hint)
 	Entity.initialize(self, 0, 0, 0, "minigamecontroller")
 
 	self.time = MinigameController.static.MAX_TIME
+	self.hint = hint
 
 	self.completed = false
 	self.success = false
 end
 
 function MinigameController:enter()
+	self.scene:getCamera():setPosition(WIDTH/2, HEIGHT/2)
+
 	self.candle = self.scene:add(Candle(20, HEIGHT))
+	self.scene:add(HintText(self.hint))
 	self.scene:add(Transition(Transition.static.IN, 0.5))
 end
 
