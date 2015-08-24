@@ -49,3 +49,31 @@ end
 function math.rgba_lerp(r1, g1, b1, a1, r2, g2, b2, a2, t)
 	return math.lerp(r1, r2, t), math.lerp(g1, g2, t), math.lerp(b1, b2, t), math.lerp(a1, a2, t)
 end
+
+function math.seq(from, to)
+	local t = {}
+	for i=from, to do
+		table.insert(t, i)
+	end
+	return t
+end
+
+function math.subset(t, n)
+	local s = {}
+	for i=1, n do
+		local index = love.math.random(1, #t)
+		table.insert(s, t[index])
+		table.remove(t, index)
+	end
+	return s
+end
+
+function math.shuffle(a)
+	for i=#a, 2, -1 do
+		local j = love.math.random(1, i)
+		local tmp = a[j]
+		a[j] = a[i]
+		a[i] = tmp
+	end
+	return a
+end

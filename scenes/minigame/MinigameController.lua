@@ -19,7 +19,7 @@ end
 function MinigameController:enter()
 	self.scene:getCamera():setPosition(WIDTH/2, HEIGHT/2)
 
-	self.candle = self.scene:add(Candle(20, HEIGHT))
+	self.candle = self.scene:add(Candle(16, HEIGHT))
 	self.scene:add(HintText(self._hint))
 	self.scene:add(Transition(Transition.static.IN, 0.5))
 end
@@ -67,6 +67,10 @@ function MinigameController:exit()
 			gamestate.pop()
 		end)
 	end)
+end
+
+function MinigameController:setTime(t)
+	self.time = t
 end
 
 return MinigameController

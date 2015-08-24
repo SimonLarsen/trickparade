@@ -10,6 +10,7 @@ local games = {
 	-- Splatter
 	"scenes.minigame.door.Controller",
 	"scenes.minigame.handshake.Controller",
+	"scenes.minigame.masks.Controller",
 	-- Critter
 	"scenes.minigame.spider.Controller",
 	"scenes.minigame.batcourse.Controller",
@@ -17,7 +18,7 @@ local games = {
 
 function MinigameFactory.random(active, level)
 	--local rand = love.math.random(2, #games)
-	rand = 3
+	rand = 6
 
 	local scene = MinigameScene()
 	scene:add(require(games[rand])(level))
