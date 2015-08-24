@@ -12,7 +12,7 @@ local net_rx = {
 }
 
 local net_spd = {
-	1.8, 1.8, 1.8, 1.8, 1.8
+	1.8, 1.8, 1.9, 2.0, 2.2
 }
 
 function Controller:initialize(level)
