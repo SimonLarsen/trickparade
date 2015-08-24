@@ -13,7 +13,7 @@ NPCData.COSTUME_GHOST_CRITTER    = 4
 NPCData.COSTUME_SPLATTER_CRITTER = 5
 NPCData.COSTUME_ALL              = 6
 
-NPCData["mom1"] = {
+NPCData["mom"] = {
 	type = NPCData.TYPE_NPC,
 	name = "MOM",
 	sprite = "mom",
@@ -21,12 +21,12 @@ NPCData["mom1"] = {
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({ "HI, HONEY.", "TONIGHT IS HALLOWEEN!", "AREN'T YOU EXITED?" }))
+			self.scene:add(Dialog({"TONIGHT IS HALLOWEEN", "AREN'T YOU EXCITED?"}))
 			self:setNPCState(1)
 		end,
 
 		[1] = function(self)
-			self.scene:add(Dialog({"MOMMY IS BUSY!!!"}))
+			self.scene:add(Dialog({"YOU SHOULD MAKE A COSTUME", "OUT OF YOUR BED SHEETS!"}))
 		end
 	}
 }

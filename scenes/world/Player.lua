@@ -184,20 +184,27 @@ function Player:getTileFront()
 end
 
 function Player:onCollide(o)
-	if self.state == Player.static.STATE_IDLE
-	and o:getName() == "teleport" then
-		self.scene:add(Transition(Transition.static.OUT, 1))
-		self:setState(Player.static.STATE_FREEZE)
-		timer.add(1, function()
-			self.x = (o.destx+0.5)*TILEW
-			self.y = (o.desty+0.5)*TILEW
+	if self.state ~= Player.static.STATE_IDLE then return end
 
-			self.scene:add(Transition(Transition.static.IN, 1))
-		end)
-		timer.add(1.5, function()
-			self:move(o.dir)
-		end)
+	if o:getName() == "teleport" then
+		self:teleport(o.destx, o.desty, o.dir)
+	elseif o:getName() == "trigger" then
+		o:trigger()
 	end
+end
+
+function Player:teleport(x, y, dir)
+	self.scene:add(Transition(Transition.static.OUT, 1))
+	self:setState(Player.static.STATE_FREEZE)
+	timer.add(1, function()
+		self.x = (x+0.5)*TILEW
+		self.y = (y+0.5)*TILEW
+
+		self.scene:add(Transition(Transition.static.IN, 1))
+	end)
+	timer.add(1.5, function()
+		self:move(dir)
+	end)
 end
 
 function Player:setState(state)
@@ -215,6 +222,10 @@ function Player:getSprite()
 	local quad = love.graphics.newQuad(0, 0, fw, fh, spr:getWidth(), spr:getHeight())
 
 	return spr, quad
+end
+
+function Player:getCostume()
+	return self.costume
 end
 
 return Player

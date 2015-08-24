@@ -2,8 +2,10 @@ local EntityFactory = {}
 
 local Teleport = require("scenes.world.Teleport")
 local Text = require("scenes.world.Text")
+local Trigger = require("scenes.world.Trigger")
 local Note = require("scenes.world.Note")
 local NPC = require("scenes.world.NPC")
+local View = require("scenes.world.View")
 
 function EntityFactory.create(o)
 	if o.type == "teleport" then
@@ -20,6 +22,11 @@ function EntityFactory.create(o)
 			o.y + TILEW/2,
 			lines
 		)
+	elseif o.type == "trigger" then
+		return Trigger(
+			o.x, o.y, o.width, o.height,
+			o.properties.id
+		)
 	elseif o.type == "note" then
 		local lines = o.properties.lines:split("##")
 		return Note(
@@ -34,6 +41,8 @@ function EntityFactory.create(o)
 			o.properties.id,
 			tonumber(o.properties.dir)
 		)
+	elseif o.type == "view" then
+		return View(o.x, o.y, o.width, o.height)
 	end
 end
 

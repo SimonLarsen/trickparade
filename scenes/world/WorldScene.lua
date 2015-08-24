@@ -9,7 +9,10 @@ function WorldScene:initialize()
 
 	self:setCheckCollision(false)
 
-	self:add(Player(8.5*TILEW, 12.5*TILEW))
+	local startx = 4
+	local starty = 39
+
+	self:add(Player((startx+0.5)*TILEW, (starty+0.5)*TILEW))
 	self:add(Tilemap()):load("world")
 	self:add(CurtainsTransition(CurtainsTransition.static.IN))
 end
