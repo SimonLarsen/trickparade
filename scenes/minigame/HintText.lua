@@ -1,13 +1,12 @@
 local HintText = class("HintText", Entity)
 
-function HintText:initialize(text)
+function HintText:initialize(text, intime)
 	Entity.initialize(self)
 
 	self.text = text
-	self.time = 1.2
+	self.time = 1.5
 
 	self.texty = -16
-
 	self.font = Resources.getFont("gothic.ttf", 16)
 
 	self.tween = tween.new(1, self, {texty = HEIGHT/2-8}, "outBounce")

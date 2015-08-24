@@ -4,17 +4,18 @@ local MinigameFactory = {}
 
 local games = {
 	-- Ghost
-	[1] = "scenes.minigame.flicker.Controller",
-	[2] = "scenes.minigame.flashlight.Controller",
+	"scenes.minigame.flicker.Controller",
+	"scenes.minigame.flashlight.Controller",
 	-- Splatter
-	[3] = "scenes.minigame.door.Controller",
+	"scenes.minigame.door.Controller",
+	"scenes.minigame.handshake.Controller",
 	-- Critter
-	[4] = "scenes.minigame.spider.Controller",
+	"scenes.minigame.spider.Controller",
 }
 
 function MinigameFactory.random(active, level)
 	--local rand = love.math.random(2, #games)
-	rand = 2
+	rand = 4
 
 	local scene = MinigameScene()
 	scene:add(require(games[rand])(level))

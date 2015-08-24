@@ -9,53 +9,53 @@ MinigameController.static.MAX_TIME = 5
 function MinigameController:initialize(hint)
 	Entity.initialize(self, 0, 0, 0, "minigamecontroller")
 
-	self.time = MinigameController.static.MAX_TIME
-	self.hint = hint
+	self._time = MinigameController.static.MAX_TIME
+	self._hint = hint
 
-	self.completed = false
-	self.success = false
+	self._completed = false
+	self._success = false
 end
 
 function MinigameController:enter()
 	self.scene:getCamera():setPosition(WIDTH/2, HEIGHT/2)
 
 	self.candle = self.scene:add(Candle(20, HEIGHT))
-	self.scene:add(HintText(self.hint))
+	self.scene:add(HintText(self._hint))
 	self.scene:add(Transition(Transition.static.IN, 0.5))
 end
 
 function MinigameController:update(dt)
-	self.time = self.time - dt
-	local size = self.time / MinigameController.static.MAX_TIME
+	self._time = self._time - dt
+	local size = self._time / MinigameController.static.MAX_TIME
 	self.candle:setSize(size)
 
-	if self.time <= 0 then
-		self.time = 0
-		if self.completed == false then
-			self.completed = true
+	if self._time <= 0 then
+		self._time = 0
+		if self._completed == false then
+			self._completed = true
 			self:exit()
 		end
 	end
 end
 
 function MinigameController:isCompleted()
-	return self.completed
+	return self._completed
 end
 
 function MinigameController:isSuccess()
-	return self.success
+	return self._success
 end
 
 function MinigameController:onSuccess()
-	self.completed = true
-	self.success = true
+	self._completed = true
+	self._success = true
 
 	self:exit()
 end
 
 function MinigameController:onFail()
-	self.completed = true
-	self.success = false
+	self._completed = true
+	self._success = false
 
 	self:exit()
 end
