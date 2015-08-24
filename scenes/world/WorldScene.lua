@@ -12,8 +12,10 @@ function WorldScene:initialize()
 	local startx = 4
 	local starty = 39
 
-	self:add(Player((startx+0.5)*TILEW, (starty+0.5)*TILEW))
-	self:add(Tilemap()):load("world")
+	local world = self:add(Tilemap())
+	world:load("world")
+	local startx, starty = world:getPlayerStart()
+	self:add(Player(startx, starty))
 	self:add(CurtainsTransition(CurtainsTransition.static.IN))
 end
 

@@ -7,7 +7,7 @@ return {
   height = 61,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 34,
+  nextobjectid = 49,
   properties = {},
   tilesets = {
     {
@@ -111,7 +111,10 @@ return {
       name = "objects",
       visible = true,
       opacity = 1,
-      properties = {},
+      properties = {
+        ["dir"] = "2",
+        ["id"] = "oldman"
+      },
       objects = {
         {
           id = 3,
@@ -419,6 +422,148 @@ return {
           properties = {
             ["dir"] = "3",
             ["id"] = "wolfkid1"
+          }
+        },
+        {
+          id = 36,
+          name = "",
+          type = "npc",
+          shape = "rectangle",
+          x = 224,
+          y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["dir"] = "1",
+            ["id"] = "alleyblocker"
+          }
+        },
+        {
+          id = 37,
+          name = "",
+          type = "player",
+          shape = "rectangle",
+          x = 128,
+          y = 256,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 38,
+          name = "",
+          type = "trigger",
+          shape = "rectangle",
+          x = 240,
+          y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = "alleyblocker"
+          }
+        },
+        {
+          id = 40,
+          name = "",
+          type = "appletree",
+          shape = "rectangle",
+          x = 272,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 42,
+          name = "",
+          type = "appletree",
+          shape = "rectangle",
+          x = 288,
+          y = 400,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 43,
+          name = "",
+          type = "appletree",
+          shape = "rectangle",
+          x = 272,
+          y = 416,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 44,
+          name = "",
+          type = "appletree",
+          shape = "rectangle",
+          x = 288,
+          y = 416,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 46,
+          name = "",
+          type = "npc",
+          shape = "rectangle",
+          x = 160,
+          y = 880,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["dir"] = "2",
+            ["id"] = "oldman"
+          }
+        },
+        {
+          id = 47,
+          name = "",
+          type = "trigger",
+          shape = "rectangle",
+          x = 0,
+          y = 256,
+          width = 16,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = "leftblock"
+          }
+        },
+        {
+          id = 48,
+          name = "",
+          type = "trigger",
+          shape = "rectangle",
+          x = 560,
+          y = 256,
+          width = 16,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["id"] = "flashblock"
           }
         }
       }

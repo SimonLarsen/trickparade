@@ -50,7 +50,12 @@ function Tilemap:load(id)
 		
 		elseif layer.type == "objectgroup" then
 			for j, o in ipairs(layer.objects) do
-				self.scene:add(EntityFactory.create(o))
+				if o.type == "player" then
+					self.startx = o.x + TILEW/2
+					self.starty = o.y + TILEW/2
+				else
+					self.scene:add(EntityFactory.create(o))
+				end
 			end
 		end
 	end
@@ -74,6 +79,10 @@ end
 
 function Tilemap:getHeight()
 	return self.maph * TILEW
+end
+
+function Tilemap:getPlayerStart()
+	return self.startx, self.starty
 end
 
 return Tilemap

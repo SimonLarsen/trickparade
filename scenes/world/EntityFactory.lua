@@ -6,6 +6,7 @@ local Trigger = require("scenes.world.Trigger")
 local Note = require("scenes.world.Note")
 local NPC = require("scenes.world.NPC")
 local View = require("scenes.world.View")
+local AppleTree = require("scenes.world.AppleTree")
 
 function EntityFactory.create(o)
 	if o.type == "teleport" then
@@ -43,6 +44,9 @@ function EntityFactory.create(o)
 		)
 	elseif o.type == "view" then
 		return View(o.x, o.y, o.width, o.height)
+
+	elseif o.type == "appletree" then
+		return AppleTree(o.x, o.y)
 	end
 end
 

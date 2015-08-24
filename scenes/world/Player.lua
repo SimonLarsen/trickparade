@@ -21,6 +21,7 @@ function Player:initialize(x, y)
 
 	self.state = Player.static.STATE_IDLE
 	self.costume = "base"
+	self.items = {}
 
 	self.anim = Animation(
 		Resources.getImage("world/player_" .. self.costume .. "_down.png"),
@@ -256,6 +257,17 @@ function Player:getDamage(type)
 	end
 
 	return 0
+end
+
+function Player:hasItem(item)
+	for i,v in ipairs(self.items) do
+		if v == item then return true end
+	end
+	return false
+end
+
+function Player:giveItem(i)
+	table.insert(self.items, i)
 end
 
 return Player
