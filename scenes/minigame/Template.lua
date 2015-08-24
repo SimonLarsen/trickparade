@@ -3,6 +3,7 @@ local MinigameController = require("scenes.minigame.MinigameController")
 local Controller = class("Controller", MinigameController)
 
 -- Call self:onSuccess() when player wins
+-- or   self:onFail() when player fails
 
 function Controller:initialize(level)
 	MinigameController.initialize(self, "HINT TEXT")

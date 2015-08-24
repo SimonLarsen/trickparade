@@ -53,6 +53,13 @@ function MinigameController:onSuccess()
 	self:exit()
 end
 
+function MinigameController:onFail()
+	self.completed = true
+	self.success = false
+
+	self:exit()
+end
+
 function MinigameController:exit()
 	timer.add(1, function()
 		self.scene:add(Transition(Transition.static.OUT, 0.5))
