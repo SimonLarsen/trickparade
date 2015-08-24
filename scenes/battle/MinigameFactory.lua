@@ -17,13 +17,45 @@ local games = {
 	"scenes.minigame.sling.Controller",
 }
 
-function MinigameFactory.random(active, level)
-	--local rand = love.math.random(2, #games)
-	rand = 1
+local first_ghost = 1
+local last_ghost = 3
 
+local first_splatter = 4
+local last_splatter = 6
+
+local first_critter = 7
+local last_critter = 9
+
+function MinigameFactory.create(id, level)
 	local scene = MinigameScene()
-	scene:add(require(games[rand])(level))
+	scene:add(require(games[id])(level))
 	return scene
+end
+
+function MinigameFactory.getSequence(active)
+	--[[
+	local pool = {}
+	if active[1] then
+		for i=first_ghost, last_ghost do
+			table.insert(pool, i)
+		end
+	end
+	if active[2] then
+		for i=first_splatter, last_splatter do
+			table.insert(pool, i)
+		end
+	end
+	if active[3] then
+		for i=first_critter, last_critter do
+			table.insert(pool, i)
+		end
+	end
+	]]
+
+	local pool = math.seq(1, #games)
+	math.shuffle(pool)
+
+	return pool
 end
 
 return MinigameFactory

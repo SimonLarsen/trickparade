@@ -109,8 +109,7 @@ function Controller:update(dt)
 			end
 			if self.selection == 4
 			and self.active[1] or self.active[2] or self.active[3] then
-				self.hits = 0
-				self:startMinigame()
+				self:startAttack()
 			end
 		end
 	elseif self.state == Controller.static.STATE_GAME then
@@ -147,9 +146,15 @@ function Controller:update(dt)
 	end
 end
 
+function Controller:startAttack()
+	self.sequence = MinigameFactory.getSequence(self.active)
+	self.hits = 0
+	self:startMinigame()
+end
+
 function Controller:startMinigame()
 	self.state = Controller.static.STATE_GAME
-	self.minigame = MinigameFactory.random(self.active, self.hits+1)
+	self.minigame = MinigameFactory.create(self.sequence[self.hits+1], self.hits+1)
 	self.scene:add(Transition(Transition.static.OUT, 0.5))
 	timer.add(0.5, function()
 		gamestate.push(self.minigame)

@@ -28,7 +28,6 @@ function Controller:update(dt)
 	if self:isCompleted() then return end
 
 	if Keyboard.wasPressed(Config.KEY_ACTION) then
-		print(math.cos(self.pos))
 		if math.abs(math.cos(self.pos)) < THRESHOLD then
 			self:onSuccess()
 		else
