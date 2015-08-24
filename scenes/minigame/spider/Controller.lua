@@ -27,6 +27,8 @@ function Controller:initialize(level)
 	self.hand = Resources.getImage("minigame/spider/turninghand.png")
 	self.spider = Resources.getImage("minigame/spider/spider.png")
 
+	self.inst = Animation(Resources.getImage("minigame/spider/inst.png"), 42, 42, 0.15)
+
 	self.required = req[level]
 	self.step = 0
 	self.progress = 0
@@ -34,6 +36,8 @@ end
 
 function Controller:update(dt)
 	MinigameController.update(self, dt)
+
+	self.inst:update(dt)
 
 	if Keyboard.wasPressed(inp[self.step]) then
 		self.step = (self.step + 1) % 4
@@ -68,6 +72,8 @@ function Controller:draw()
 
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.spider, x, y, 0, 1, 1, 7, 10)
+
+	self.inst:draw(45, 106)
 end
 
 return Controller
