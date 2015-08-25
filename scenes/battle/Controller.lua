@@ -186,7 +186,7 @@ function Controller:attack()
 		self.enemy_hp = math.max(0, self.enemy_hp - damage)
 	end)
 	timer.add(1.0, function()
-		self.scene:add(Dialog({ "PLAYER DEALTH " .. damage .. " DAMAGE.", self.enemy:getNPCName() .. effect_text[effect] }, fun))
+		self.scene:add(Dialog({ "PLAYER DEALT " .. damage .. " DAMAGE.", self.enemy:getNPCName() .. effect_text[effect] }, fun))
 	end)
 end
 

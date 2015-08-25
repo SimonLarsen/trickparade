@@ -24,7 +24,7 @@ NPCData["mom"] = {
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({"MOM: I MADE A CUSTOME FOR","YOU OUT OF YOUR OLD BED","SHEETS."}, function()
+			self.scene:add(Dialog({"MOM: I MADE A COSTUME FOR","YOU OUT OF YOUR OLD BED","SHEETS."}, function()
 				self.scene:find("player"):giveCostume("ghost")
 				self.scene:add(Dialog({"MOM GAVE YOU GHOST COSTUME!"}))
 			end))
@@ -218,7 +218,7 @@ NPCData["ghosthint"] = {
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({"GHOST KID: ALL THE BULLIES","ARE HANGING OUT IN THE","FOREST."}, function()
+			self.scene:add(Dialog({"GHOST DOG: ALL THE BULLIES","ARE HANGING OUT IN THE","FOREST."}, function()
 				self:startBattle()
 			end))
 		end,
@@ -253,7 +253,7 @@ NPCData["ghostkid4"] = {
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({"GHOST KID: I'M A GHOST DOG!"}, function()
+			self.scene:add(Dialog({"GHOST DOG: I'M A GHOST DOG!"}, function()
 				self:startBattle()
 			end))
 		end,
