@@ -5,6 +5,7 @@ Resources.SOUND_INTERVAL = 0.1
 local images = {}
 local animators = {}
 local fonts = {}
+local music
 
 function Resources.initialize()
 	Resources.getImageFont("small.png", " 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.,:;-?!'*")
@@ -37,6 +38,12 @@ function Resources.getImageFont(path, glyphs)
 		fonts[path] = love.graphics.newImageFont("data/fonts/" .. path, glyphs)
 	end
 	return fonts[path]
+end
+
+function Resources.playMusic(path)
+	music = love.audio.newSource("data/music/" .. path, "stream")
+	music:setLooping(true)
+	love.audio.play(music)
 end
 
 return Resources

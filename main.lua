@@ -32,8 +32,7 @@ function love.load()
 	Resources.initialize()
 
 	gamestate.registerEvents()
-	gamestate.push(require("scenes.world.WorldScene")())
-	--gamestate.push(require("scenes.battle.BattleScene")())
+	gamestate.push(require("scenes.title.TitleScene")())
 end
 
 function love.gui()
