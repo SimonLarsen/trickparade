@@ -112,7 +112,11 @@ function Controller:draw()
 		love.graphics.draw(self.marker, 50-38*0.75*self.power, self.slingy+1.5*self.power, 0, 1, 1, 2, 2)
 	end
 
-	love.graphics.draw(self.girl_neutral, 136, 22)
+	if self:isSuccess() then
+		love.graphics.draw(self.girl_scared, 136, 22)
+	else
+		love.graphics.draw(self.girl_neutral, 136, 22)
+	end
 	love.graphics.draw(self.icecream, 173, 95, self.rot, 1, 1, 52, 26)
 
 	love.graphics.draw(self.cockroach, self.cockroachx, self.cockroachy, 0, 1, 1, 10, 15)
