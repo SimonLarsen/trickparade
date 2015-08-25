@@ -33,6 +33,7 @@ function MinigameController:update(dt)
 		self._time = 0
 		if self._completed == false then
 			self._completed = true
+			Resources.playSound("minigame_fail.wav")
 			self:exit()
 		end
 	end
@@ -49,6 +50,7 @@ end
 function MinigameController:onSuccess()
 	self._completed = true
 	self._success = true
+	Resources.playSound("minigame_win.wav")
 
 	self:exit()
 end
@@ -56,6 +58,7 @@ end
 function MinigameController:onFail()
 	self._completed = true
 	self._success = false
+	Resources.playSound("minigame_fail.wav")
 
 	self:exit()
 end
