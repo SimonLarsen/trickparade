@@ -178,6 +178,11 @@ function Controller:attack()
 	end
 
 	timer.add(0.5, function()
+		if damage > 0 then
+			Resources.playSound("hit_effective.wav")
+		else
+			Resources.playSound("hit_ineffective.wav")
+		end
 		self.enemy_hp = math.max(0, self.enemy_hp - damage)
 	end)
 	timer.add(1.0, function()
@@ -243,6 +248,7 @@ function Controller:counter()
 	end
 
 	self.player_hp = math.max(0, self.player_hp - damage)
+	Resources.playSound("hit_effective.wav")
 	timer.add(1.0, function()
 		self.scene:add(Dialog({ self.enemy:getNPCName() .. " DEALTH " .. damage .. " DAMAGE" }, fun))
 	end)

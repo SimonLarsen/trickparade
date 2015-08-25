@@ -5,6 +5,7 @@ Resources.SOUND_INTERVAL = 0.1
 local images = {}
 local animators = {}
 local fonts = {}
+local sounds = {}
 local music
 
 function Resources.initialize()
@@ -40,7 +41,16 @@ function Resources.getImageFont(path, glyphs)
 	return fonts[path]
 end
 
+function Resources.playSound(path)
+	if sounds[path] == nil then
+		sounds[path] = love.audio.newSource("data/sfx/" .. path, "static")
+	end
+	love.audio.play(sounds[path])
+end
+
 function Resources.playMusic(path)
+	if music then music:stop() end
+
 	music = love.audio.newSource("data/music/" .. path, "stream")
 	music:setLooping(true)
 	love.audio.play(music)

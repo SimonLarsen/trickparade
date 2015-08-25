@@ -49,9 +49,11 @@ function Player:update(dt)
 		elseif Keyboard.wasPressed(Config.KEY_ACTION, true) then
 			self:interact()
 	
+		--[[
 		elseif Keyboard.wasPressed(Config.KEY_CANCEL, true) then
 			self.state = Player.static.STATE_FREEZE
 			self.scene:add(Menu())
+		]]
 		end
 	
 	elseif self.state == Player.static.STATE_WALK then
@@ -113,6 +115,7 @@ function Player:checkEnemyFOV()
 			if detected then
 				self.scene:add(Exclamation(v.x, v.y-22))
 				v:interact(self)
+				Resources.playSound("encounter.wav")
 				return
 			end
 		end

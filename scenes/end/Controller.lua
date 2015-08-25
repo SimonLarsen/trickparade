@@ -10,8 +10,8 @@ function Controller:initialize()
 	end
 
 	self.time = 0.5
-
 	self.step = 1
+	Resources.playMusic("ending.mp3")
 end
 
 function Controller:update(dt)

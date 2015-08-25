@@ -44,12 +44,18 @@ function NPC:update(dt)
 			local controller = self.battle:find("battlecontroller")
 			if controller:isCompleted() then
 				self.state = NPC.static.STATE_IDLE
+				local player = self.scene:find("player")
 				if controller:isSuccess() and NPCData[self.id].onWin then
 					NPCData[self.id].onWin(self)
+				else
+					player.x = 40
+					player.y = 616
+					player:setDir(1)
 				end
 				self.state = NPC.static.STATE_IDLE
-				self.scene:find("player"):setState(Player.static.IDLE)
+				player:setState(Player.static.STATE_IDLE)
 				self.battle = nil
+				Resources.playMusic("overworld.mp3")
 			end
 		end
 	end
@@ -90,6 +96,7 @@ function NPC:startBattle()
 	self.scene:add(Transition(Transition.static.OUT, 1))
 	local player = self.scene:find("player")
 	player:setState(Player.static.STATE_FREEZE)
+	Resources.playMusic("battle.mp3")
 	timer.add(1, function()
 		self.battle = BattleScene(player, self)
 		self.scene:add(Transition(Transition.static.IN, 1))
