@@ -53,7 +53,8 @@ function Controller:update(dt)
 			self.slingy = self.slingy + 30*dt
 		end
 		
-		if Keyboard.isDown(Config.KEY_LEFT) then
+		if Keyboard.isDown(Config.KEY_LEFT)
+		or Keyboard.isDown(Config.KEY_ACTION) then
 			self.power = math.min(self.power + 1.2*dt, 1)
 		else
 			if self.power > 0 then

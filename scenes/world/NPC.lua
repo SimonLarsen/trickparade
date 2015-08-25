@@ -4,6 +4,7 @@ local NPC = class("NPC", Interactable)
 local NPCData = require("scenes.world.NPCData")
 local Transition = require("transition.CurtainsTransition")
 local BattleScene = require("scenes.battle.BattleScene")
+local Player = require("scenes.world.Player")
 
 NPC.static.STATE_IDLE = 0
 NPC.static.STATE_WALK = 1
@@ -15,6 +16,9 @@ function NPC:initialize(x, y, id, dir)
 	self.state = NPC.static.STATE_IDLE
 	self.id = id
 	self.dir = dir
+	if NPCData[self.id] == nil then
+		print(self.id .. "NOT FOUND!")
+	end
 	self.sprite_id = NPCData[self.id].sprite
 	self.battle = nil
 
@@ -44,8 +48,9 @@ function NPC:update(dt)
 					NPCData[self.id].onWin(self)
 				end
 				self.state = NPC.static.STATE_IDLE
+				self.scene:find("player"):setState(Player.static.IDLE)
+				self.battle = nil
 			end
-			self.battle = nil
 		end
 	end
 end
@@ -84,6 +89,7 @@ function NPC:startBattle()
 	self.state = NPC.static.STATE_BATTLE
 	self.scene:add(Transition(Transition.static.OUT, 1))
 	local player = self.scene:find("player")
+	player:setState(Player.static.STATE_FREEZE)
 	timer.add(1, function()
 		self.battle = BattleScene(player, self)
 		self.scene:add(Transition(Transition.static.IN, 1))

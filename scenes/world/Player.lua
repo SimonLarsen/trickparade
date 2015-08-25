@@ -20,7 +20,7 @@ function Player:initialize(x, y)
 	self.collider = BoxCollider(16, 16)
 
 	self.state = Player.static.STATE_IDLE
-	self.costume = "ghost"
+	self.costume = "base"
 	self.items = {}
 
 	self.anim = Animation(
