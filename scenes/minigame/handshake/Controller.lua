@@ -89,10 +89,11 @@ function Controller:draw()
 		love.graphics.draw(self.sleeve, self.enemyx+46, self.enemyy-55)
 
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.printf("PULL!", -1, HEIGHT/2-19, WIDTH, "center")
-		love.graphics.printf("PULL!", 1, HEIGHT/2-19, WIDTH, "center")
-		love.graphics.printf("PULL!", -1, HEIGHT/2-17, WIDTH, "center")
-		love.graphics.printf("PULL!", 1, HEIGHT/2-17, WIDTH, "center")
+		for ix=-1, 1 do
+			for iy = -1, 1 do
+				love.graphics.printf("PULL!", ix, HEIGHT/2-18+iy, WIDTH, "center")
+			end
+		end
 
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.printf("PULL!", 0, HEIGHT/2-18, WIDTH, "center")
