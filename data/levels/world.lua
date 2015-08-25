@@ -642,7 +642,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["dir"] = "0",
+            ["dir"] = "2",
             ["id"] = "ghostkid3"
           }
         },
