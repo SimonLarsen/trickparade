@@ -69,6 +69,9 @@ function Player:update(dt)
 
 		self.moved = self.moved + Player.static.WALK_SPEED*dt
 		if self.moved >= TILEW then
+			local cx, cy = self:getTile()
+			self.x = cx*TILEW+8
+			self.y = cy*TILEW+8
 			self.moved = 0
 			self.state = Player.static.STATE_IDLE
 			CollisionHandler.checkAll(self.scene, dt)

@@ -52,7 +52,7 @@ function Controller:update(dt)
 	end
 	self.baty = math.min(math.max(self.baty, 16), HEIGHT-16)
 
-	if math.abs(self.batx - self.netx) < 24
+	if math.abs(self.batx - self.netx) < 20
 	and math.abs(self.baty - self.nety) < 16 then
 		self:onFail()
 	end

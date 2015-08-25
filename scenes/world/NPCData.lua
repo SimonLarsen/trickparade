@@ -218,7 +218,7 @@ NPCData["ghosthint"] = {
 	costume = NPCData.COSTUME_GHOST_CRITTER,
 	state = 0,
 	range = 4,
-	hp = 100,
+	hp = 200,
 	damage = 40,
 
 	interact = {
@@ -242,7 +242,7 @@ NPCData["splatterkid"] = {
 	costume = NPCData.COSTUME_SPLATTER,
 	state = 0,
 	range = 4,
-	hp = 120,
+	hp = 200,
 	damage = 40,
 
 	interact = {
@@ -283,7 +283,7 @@ NPCData["ghostkid4"] = {
 	costume = NPCData.COSTUME_GHOST_CRITTER,
 	state = 0,
 	range = 4,
-	hp = 120,
+	hp = 230,
 	damage = 40,
 
 	interact = {
@@ -333,7 +333,7 @@ NPCData["bully1"] = {
 	costume = NPCData.COSTUME_GHOST_SPLATTER,
 	state = 0,
 	range = 1,
-	hp = 140,
+	hp = 200,
 	damage = 30,
 
 	interact = {
@@ -357,7 +357,7 @@ NPCData["bully2"] = {
 	costume = NPCData.COSTUME_SPLATTER_CRITTER,
 	state = 0,
 	range = 3,
-	hp = 140,
+	hp = 200,
 	damage = 30,
 
 	interact = {
@@ -378,7 +378,7 @@ NPCData["bully3"] = {
 	costume = NPCData.COSTUME_GHOST_SPLATTER,
 	state = 0,
 	range = 1,
-	hp = 140,
+	hp = 230,
 	damage = 30,
 
 	interact = {
@@ -403,7 +403,8 @@ NPCData["bigbully"] = {
 	costume = NPCData.COSTUME_ALL,
 	state = 0,
 	range = 0,
-	hp = 200,
+	--hp = 500,
+	hp = 5,
 	damage = 34,
 
 	interact = {

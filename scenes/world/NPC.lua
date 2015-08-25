@@ -43,8 +43,11 @@ function NPC:update(dt)
 		if self.battle then
 			local controller = self.battle:find("battlecontroller")
 			if controller:isCompleted() then
+				self.battle = nil
 				self.state = NPC.static.STATE_IDLE
 				local player = self.scene:find("player")
+				player:setState(Player.static.STATE_IDLE)
+				Resources.playMusic("overworld.mp3")
 				if controller:isSuccess() and NPCData[self.id].onWin then
 					NPCData[self.id].onWin(self)
 				else
@@ -52,10 +55,6 @@ function NPC:update(dt)
 					player.y = 616
 					player:setDir(1)
 				end
-				self.state = NPC.static.STATE_IDLE
-				player:setState(Player.static.STATE_IDLE)
-				self.battle = nil
-				Resources.playMusic("overworld.mp3")
 			end
 		end
 	end

@@ -11,6 +11,9 @@ function Controller:initialize()
 
 	self.time = 0.5
 	self.step = 1
+end
+
+function Controller:enter()
 	Resources.playMusic("ending.mp3")
 end
 
