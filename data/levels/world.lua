@@ -7,7 +7,7 @@ return {
   height = 61,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 63,
+  nextobjectid = 64,
   properties = {},
   tilesets = {
     {
@@ -754,7 +754,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["dir"] = "0",
+            ["dir"] = "2",
             ["id"] = "dad"
           }
         },
@@ -772,6 +772,22 @@ return {
           properties = {
             ["dir"] = "2",
             ["id"] = "typehint"
+          }
+        },
+        {
+          id = 63,
+          name = "",
+          type = "npc",
+          shape = "rectangle",
+          x = 496,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["dir"] = "3",
+            ["id"] = "splatterkid"
           }
         }
       }

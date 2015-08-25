@@ -82,11 +82,12 @@ NPCData["wolfkid2"] = {
 		end,
 
 		[1] = function(self)
-			self.scene:add(Dialog({ "WOLF KID: I'M TELLING MY MOM" }))
+			self.scene:add(Dialog({ "WOLF KID: THE ELDER KIDS", "DECIDED A RULE: CRITTERS", "ARE AFRAID OF GHOSTS,", "GHOSTS ARE AFRAID OF", "SLASHER, AND SLASHER ARE", "AFRAID OF CRITTERS.", "ALTHOUGH I'VE HEARD SOME", "KIDS TRY TO CHEAT BY", "COMBINING COSTUMES!"}))
 		end
 	},
 
 	onWin = function(self)
+		self.scene:add(Dialog({ "WOLF KID: THE ELDER KIDS", "DECIDED A RULE: CRITTERS", "ARE AFRAID OF GHOSTS,", "GHOSTS ARE AFRAID OF", "SLASHER, AND SLASHER ARE", "AFRAID OF CRITTERS.", "ALTHOUGH I'VE HEARD SOME", "KIDS TRY TO CHEAT BY", "COMBINING COSTUMES!"}))
 		self:setNPCState(1, 0)
 	end
 }
@@ -105,6 +106,10 @@ NPCData["wolfkid3"] = {
 		[0] = function(self)
 			self:startBattle()
 		end,
+
+		[1] = function(self)
+			self.scene:add(Dialog({ "WOLF KID: I'M TELLING MY MOM" }))
+		end
 	},
 
 	onWin = function(self)
@@ -229,6 +234,28 @@ NPCData["ghosthint"] = {
 	end
 }
 
+-- Jason in from of big house door
+NPCData["splatterkid"] = {
+	type = NPCData.TYPE_ENEMY,
+	name = "SPLATTER KID",
+	sprite = "splatter",
+	costume = NPCData.COSTUME_SPLATTER,
+	state = 0,
+	range = 4,
+	hp = 120,
+	damage = 40,
+
+	interact = {
+		[0] = function(self)
+			self:startBattle()
+		end
+	},
+
+	onWin = function(self)
+		self:setNPCState(1, 0)
+	end
+}
+
 -- Man who gives you franken suit
 NPCData["dad"] = {
 	type = NPCData.TYPE_NPC,
@@ -237,6 +264,14 @@ NPCData["dad"] = {
 	state = 0,
 
 	interact = {
+		[0] = function(self)
+			self.scene:add(Dialog({"MAN: IF YOU'RE GOING INTO","THE WOODS YOU'LL NEED THIS."},
+			function()
+				self.scene:find("player"):giveItem("flashlight")
+				self.scene:add(Dialog({"MAN GAVE YOU A FLASHLIGHT."}))
+			end))
+			self:setNPCState(1)
+		end
 	}
 }
 
@@ -285,7 +320,7 @@ NPCData["oldman"] = {
 		end,
 
 		[1] = function(self)
-			self.scene:add(Dialog({"MAN: YOU'RE WELCOME!"}))
+			self.scene:add(Dialog({"OLD MAN: YOU'RE WELCOME!"}))
 		end
 	}
 }

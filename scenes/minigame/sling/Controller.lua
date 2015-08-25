@@ -117,8 +117,8 @@ function Controller:draw()
 	else
 		love.graphics.draw(self.girl_neutral, 136, 22)
 	end
-	love.graphics.draw(self.icecream, 173, 95, self.rot, 1, 1, 52, 26)
 
+	love.graphics.draw(self.icecream, 173, 95, self.rot, 1, 1, 52, 26)
 	love.graphics.draw(self.cockroach, self.cockroachx, self.cockroachy, 0, 1, 1, 10, 15)
 
 	local icex = 173 + math.cos(math.pi + self.rot+0.26)*48

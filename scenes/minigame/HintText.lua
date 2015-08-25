@@ -27,10 +27,11 @@ function HintText:gui()
 	love.graphics.setFont(self.font)
 
 	love.graphics.setColor(0, 0, 0)
-	love.graphics.printf(self.text, -1, self.texty-1, WIDTH, "center")
-	love.graphics.printf(self.text, 1, self.texty-1, WIDTH, "center")
-	love.graphics.printf(self.text, -1, self.texty+1, WIDTH, "center")
-	love.graphics.printf(self.text, 1, self.texty+1, WIDTH, "center")
+	for ix=-1, 1 do
+		for iy=-1, 1 do
+			love.graphics.printf(self.text, ix, self.texty+iy, WIDTH, "center")
+		end
+	end
 
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.printf(self.text, 0, self.texty, WIDTH, "center")
