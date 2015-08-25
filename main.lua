@@ -33,7 +33,6 @@ function love.load()
 
 	gamestate.registerEvents()
 	gamestate.push(require("scenes.title.TitleScene")())
-
 	Resources.playMusic("overworld.mp3")
 end
 

@@ -73,7 +73,7 @@ function Controller:update(dt)
 		self.cockroachy = self.slingy+2*self.power
 
 	elseif self.state == 1 then
-		self.pos = self.pos + 2*dt
+		self.pos = self.pos + ice_speed[self.level]*dt
 		self.rot = math.sin(self.pos)-0.1
 
 		self.yspeed = self.yspeed + GRAVITY*dt

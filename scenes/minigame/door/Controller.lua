@@ -67,7 +67,7 @@ function Controller:draw()
 		local frame = math.floor(self.hits / self.required * 4) + 1
 		frame = math.min(frame, 4)
 
-		love.graphics.draw(self.hole[frame], self.holex, self.holy, 0, 1, 1, 32, -20)
+		love.graphics.draw(self.hole[frame], self.holex-32, self.holey-50)
 	end
 
 	if self:isSuccess() then

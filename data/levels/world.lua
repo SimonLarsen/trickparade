@@ -643,7 +643,7 @@ return {
           visible = true,
           properties = {
             ["dir"] = "2",
-            ["id"] = "ghostkid3"
+            ["id"] = "ghostkid2"
           }
         },
         {
@@ -659,7 +659,7 @@ return {
           visible = true,
           properties = {
             ["dir"] = "0",
-            ["id"] = "ghostkid3"
+            ["id"] = "ghostdog1"
           }
         },
         {
@@ -675,7 +675,7 @@ return {
           visible = true,
           properties = {
             ["dir"] = "3",
-            ["id"] = "ghostkid4"
+            ["id"] = "ghostdog2"
           }
         },
         {

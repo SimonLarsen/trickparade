@@ -187,25 +187,53 @@ NPCData["ghostkid2"] = {
 	end
 }
 
-NPCData["ghostkid3"] = {
+NPCData["ghostdog1"] = {
 	type = NPCData.TYPE_ENEMY,
-	name = "GHOST KID",
-	sprite = "ghost",
-	costume = NPCData.COSTUME_GHOST,
+	name = "GHOST DOG",
+	sprite = "ghostdog",
+	costume = NPCData.COSTUME_GHOST_CRITTER,
 	state = 0,
 	range = 4,
-	hp = 80,
-	damage = 25,
+	hp = 200,
+	damage = 35,
 
 	interact = {
 		[0] = function(self)
-			self.scene:add(Dialog({"GHOST KID: YOU WON'T STAND", "A CHANCE IN THE ALLEY ALLEY", "WITHOUT A SPLATTER COSTUME!"}, function()
+			self.scene:add(Dialog({"GHOST DOG: I'M A GHOST DOG!"}, function()
 				self:startBattle()
 			end))
 		end,
 	},
 
 	onWin = function(self)
+		self:setNPCState(1, 0)
+	end
+}
+
+-- GHOST DOG WHO GIVES YOU WOLF SUIT
+NPCData["ghostdog2"] = {
+	type = NPCData.TYPE_ENEMY,
+	name = "GHOST DOG",
+	sprite = "ghostdog",
+	costume = NPCData.COSTUME_GHOST_CRITTER,
+	state = 0,
+	range = 4,
+	hp = 230,
+	damage = 40,
+
+	interact = {
+		[0] = function(self)
+			self.scene:add(Dialog({"GHOST DOG: I'M NOT AFRAID","OF YOU!"}, function()
+				self:startBattle()
+			end))
+		end,
+	},
+
+	onWin = function(self)
+		self.scene:add(Dialog({"GHOST DOG: HERE. HAVE THIS.","THAT WILL HELP YOU SCARE","THE BULLIES IN THE FOREST!"}, function()
+			self.scene:find("player"):giveCostume("wolf")
+		end))
+		self.scene:add(Dialog({"GHOST DOG GAVE YOU A WOLF"," COSTUME."}))
 		self:setNPCState(1, 0)
 	end
 }
@@ -273,34 +301,6 @@ NPCData["dad"] = {
 			self:setNPCState(1)
 		end
 	}
-}
-
--- GHOST DOG WHO GIVES YOU WOLF SUIT
-NPCData["ghostkid4"] = {
-	type = NPCData.TYPE_ENEMY,
-	name = "GHOST DOG",
-	sprite = "ghostdog",
-	costume = NPCData.COSTUME_GHOST_CRITTER,
-	state = 0,
-	range = 4,
-	hp = 230,
-	damage = 40,
-
-	interact = {
-		[0] = function(self)
-			self.scene:add(Dialog({"GHOST DOG: I'M A GHOST DOG!"}, function()
-				self:startBattle()
-			end))
-		end,
-	},
-
-	onWin = function(self)
-		self.scene:add(Dialog({"GHOST DOG: HERE. HAVE THIS.","THAT WILL HELP YOU SCARE","THE BULLIES IN THE FOREST!"}, function()
-			self.scene:find("player"):giveCostume("wolf")
-		end))
-		self.scene:add(Dialog({"GHOST DOG GAVE YOU A WOLF"," COSTUME."}))
-		self:setNPCState(1, 0)
-	end
 }
 
 -- Old man in house with apples
