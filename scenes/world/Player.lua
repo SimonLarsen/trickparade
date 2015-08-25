@@ -29,8 +29,6 @@ function Player:initialize(x, y)
 	)
 	self.anim._frame = 2
 	self:setDir(2)
-
-	Resources.playMusic("overworld.mp3")
 end
 
 function Player:enter()
