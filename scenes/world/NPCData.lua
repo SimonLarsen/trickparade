@@ -403,8 +403,7 @@ NPCData["bigbully"] = {
 	costume = NPCData.COSTUME_ALL,
 	state = 0,
 	range = 0,
-	--hp = 500,
-	hp = 5,
+	hp = 500,
 	damage = 34,
 
 	interact = {

@@ -23,6 +23,7 @@ function Controller:initialize(level)
 	self.icecream = Resources.getImage("minigame/sling/icecream.png")
 	self.sling = Resources.getImage("minigame/sling/slingshot.png")
 
+	self.level = level
 	self.pos = 0
 	self.rot = 0
 
@@ -65,7 +66,7 @@ function Controller:update(dt)
 			end
 		end
 
-		self.pos = self.pos + 2*dt
+		self.pos = self.pos + ice_speed[self.level]*dt
 		self.rot = math.sin(self.pos)-0.1
 
 		self.cockroachx = 50-38*self.power

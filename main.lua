@@ -17,7 +17,7 @@ Config = require("Config")
 WIDTH = 240
 HEIGHT = 160
 TILEW = 16
-SCALE = 3
+SCALE = 4
 
 local canvas
 
