@@ -162,6 +162,12 @@ function Controller:startMinigame()
 	end)
 end
 
+-- Calculate damage:
+-- effect: number of effective attacks [0-3]
+-- calc base_dmg * 2^(effect-1)
+-- Max dmg: 1: 60 * 2^0 = 60
+-- Max dmg: 2: 60 * 2^1 = 120
+-- Max dmg: 3: 60 * 2^2 = 240
 function Controller:attack()
 	self.state = Controller.static.STATE_ATTACK
 

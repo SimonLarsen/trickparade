@@ -16,6 +16,7 @@ function NPC:initialize(x, y, id, dir)
 	self.state = NPC.static.STATE_IDLE
 	self.id = id
 	self.dir = dir
+	self.start_dir = dir
 	if NPCData[self.id] == nil then
 		print(self.id .. "NOT FOUND!")
 	end
@@ -48,12 +49,15 @@ function NPC:update(dt)
 				local player = self.scene:find("player")
 				player:setState(Player.static.STATE_IDLE)
 				Resources.playMusic("overworld.mp3")
-				if controller:isSuccess() and NPCData[self.id].onWin then
-					NPCData[self.id].onWin(self)
+				if controller:isSuccess() then
+					if NPCData[self.id].onWin then
+						NPCData[self.id].onWin(self)
+					end
 				else
 					player.x = 40
 					player.y = 616
 					player:setDir(1)
+					self.dir = self.start_dir
 				end
 			end
 		end

@@ -242,8 +242,8 @@ NPCData["splatterkid"] = {
 	costume = NPCData.COSTUME_SPLATTER,
 	state = 0,
 	range = 4,
-	hp = 200,
-	damage = 40,
+	hp = 100,
+	damage = 50,
 
 	interact = {
 		[0] = function(self)
