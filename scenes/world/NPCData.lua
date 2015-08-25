@@ -384,4 +384,23 @@ NPCData["bigbully"] = {
 	end
 }
 
+-- GUY WHO GIVES HINT ABOUT TYPES
+NPCData["typehint"] = {
+	type = NPCData.TYPE_NPC,
+	name = "MAN",
+	sprite = "dad",
+	state = 0,
+
+	interact = {
+		[0] = function(self)
+			self.scene:add(Dialog({"MAN: COMBINING DIFFERENT","TYPES OF SCARES ARE","SOMETIMES MORE EFFECTIVE."}))
+			self:setNPCState(1)
+		end,
+
+		[1] = function(self)
+			self.scene:add(Dialog({"MAN: PAY ATTENTION TO WHAT","SCARES DIFFERENT KIDS THE","MOST."}))
+		end
+	}
+}
+
 return NPCData
