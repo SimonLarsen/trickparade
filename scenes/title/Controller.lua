@@ -7,6 +7,10 @@ function Controller:initialize()
 	self.bg = Resources.getImage("title/title.png")
 end
 
+function Controller:enter()
+	self.scene:add(Transition(Transition.static.IN, 1))
+end
+
 function Controller:update(dt)
 	if Keyboard.wasPressed(Config.KEY_ACTION) then
 		self.scene:add(Transition(Transition.static.OUT, 1))
