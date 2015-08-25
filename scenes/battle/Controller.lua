@@ -108,7 +108,7 @@ function Controller:update(dt)
 				self.active[self.selection] = not self.active[self.selection] and self.enabled[self.selection]
 			end
 			if self.selection == 4
-			and self.active[1] or self.active[2] or self.active[3] then
+			and (self.active[1] or self.active[2] or self.active[3]) then
 				self:startAttack()
 			end
 		end

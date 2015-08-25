@@ -252,11 +252,13 @@ end
 function Player:getDamage(type)
 	if type == "ghost" then
 		if self.costume == "ghost" then return 1 end
-
+		if self.costume == "franken" then return 1 end
+		if self.costume == "wolf" then return 1 end
 	elseif type == "splatter" then
-
+		if self.costume == "franken" then return 1 end
+		if self.costume == "wolf" then return 1 end
 	elseif type == "critter" then
-
+		if self.costume == "wolf" then return 1 end
 	end
 
 	return 0
